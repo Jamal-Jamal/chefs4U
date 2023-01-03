@@ -1,92 +1,147 @@
-# Chefs4U
-
-
+# Module3 Project Gamma
 
 ## Getting started
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+You have a project repository, now what? The next section
+lists all of the deliverables that are due at the end of the
+week. Below is some guidance for getting started on the
+tasks for this week.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## Install Extensions
 
-## Add your files
+* Prettier: <https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode>
+* Black Formatter: <https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter>
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+## Deliverables
 
-```
-cd existing_repo
-git remote add origin https://gitlab.com/Jamal-Jamal/chefs4u.git
-git branch -M main
-git push -uf origin main
-```
+* [ ] Wire-frame diagrams
+* [ ] API documentation
+* [ ] Project is deployed to Render.com/GitLab-pages
+* [ ] GitLab issue board is setup and in use
+* [ ] Journals
 
-## Integrate with your tools
+## Project layout
 
-- [ ] [Set up project integrations](https://gitlab.com/Jamal-Jamal/chefs4u/-/settings/integrations)
+The layout of the project is just like all of the projects
+you did with `docker-compose` in module #2. You will create
+a directory in the root of the repository for each service
+that you add to your project just like those previous
+projects were setup.
 
-## Collaborate with your team
+### Directories
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+Several directories have been added to your project. The
+directories `docs` and `journals` are places for you and
+your team-mates to, respectively, put any documentation
+about your project that you create and to put your
+project-journal entries. See the _README.md_ file in each
+directory for more info.
 
-## Test and Deploy
+The other directories, `ghi` and `sample_service`, are
+sample services, that you can start building off of or use
+as a reference point.
 
-Use the built-in continuous integration in GitLab.
+Inside of `ghi` is a minimal React app that has an "under
+construction" page. It is setup similarly to all of the
+other React projects that you have worked on.
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+Inside of `sample_service` is a minimal FastAPI application.
+"Where are all the files?" you might ask? Well, the
+`main.py` file is the whole thing, and go take look inside
+of it... There's not even much in there..., hmm? That is
+FastAPI, we'll learn more about it in the coming days. Can
+you figure out what this little web-application does even
+though you haven't learned about FastAPI yet?
 
-***
+Also in `sample_service` is a directory for your migrations.
+If you choose to use PostgreSQL, then you'll want to use
+migrations to control your database. Unlike Django, where
+migrations were automatically created for you, you'll write
+yours by hand using DDL. Don't worry about not knowing what
+DDL means; we have you covered. There's a sample migration
+in there that creates two tables so you can see what they
+look like.
 
-# Editing this README
+The sample Dockerfile and Dockerfile.dev run your migrations
+for you automatically.
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+### Other files
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+The following project files have been created as a minimal
+starting point. Please follow the guidance for each one for
+a most successful project.
 
-## Name
-Choose a self-explaining name for your project.
+* `docker-compose.yaml`: there isn't much in here, just a
+  **really** simple UI and FastAPI service. Add services
+  (like a database) to this file as you did with previous
+  projects in module #2.
+* `.gitlab-ci.yml`: This is your "ci/cd" file where you will
+  configure automated unit tests, code quality checks, and
+  the building and deployment of your production system.
+  Currently, all it does is deploy an "under construction"
+  page to your production UI on GitLab and a sample backend
+  to Render.com. We will learn much more about this file.
+* `.gitignore`: This is a file that prevents unwanted files
+  from getting added to your repository, files like
+  `pyc` files, `__pycache__`, etc. We've set it up so that
+  it has a good default configuration for Python projects.
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+## How to complete the initial deploy
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+There will be further guidance on completing the initial
+deployment, but it just consists of these steps:
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+### Setup GitLab repo/project
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+* make sure this project is in a group. If it isn't, stop
+  now and move it to a GitLab group
+* remove the fork relationship: In GitLab go to:
+  
+  Settings -> General -> Advanced -> Remove fork relationship
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+* add these GitLab CI/CD variables:
+  * PUBLIC_URL : this is your gitlab pages URL
+  * SAMPLE_SERVICE_API_HOST: enter "blank" for now
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+#### Your GitLab pages URL
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+You can't find this in GitLab until after you've done a deploy
+but you can figure it out yourself from your GitLab project URL.
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+If this is your project URL
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+https://gitlab.com/GROUP_NAME/PROJECT_NAME
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+then your GitLab pages URL will be
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+https://GROUP_NAME.gitlab.io/PROJECT_NAME
 
-## License
-For open source projects, say how it is licensed.
+### Create render.com account and application
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+* create account on render.com
+* one person create a group and invite all other members
+* create a new "Web Service"
+  * authenticate with GitLab and choose your project
+  * Enter fields:
+    * Name: name of your service
+    * Root Directory: the directory of your service in your git repo.
+      For this example use "sample_service".
+    * Environment: Docker
+    * Plan Type: Free
+  * click the "Create Web Service" button to create it
+  * the build will succeed and it will look like the server is running,
+    most likely, in 6-10 minutes, it will fail.
+  * click "Manual Deploy" -> "Deploy latest commit" and the service
+    should deploy successfully.
+
+### Update GitLab CI/CD variables
+
+Copy the service URL for your new render.com service and then paste
+that into the value for the SAMPLE_SERVICE_API_HOST CI/CD variable
+in GitLab.
+
+### Deploy it
+
+Merge a change into main to kick off the initial deploy. Once the build pipeline
+finishes you should be able to see an "under construction" page on your GitLab
+pages site.
