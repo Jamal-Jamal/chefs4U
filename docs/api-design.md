@@ -1,34 +1,3 @@
-### «Human-readable of the endpoint»
-
-- Endpoint path: «path to use»
-- Endpoint method: «HTTP method»
-- Query parameters:
-
-  - «name»: «purpose»
-
-- Headers:
-
-  - Authorization: Bearer token
-
-- Request shape (JSON):
-
-  ```json
-  «JSON-looking thing that has the
-  keys and types in it»
-  ```
-
-- Response: «Human-readable description
-  of response»
-- Response shape (JSON):
-
-  ```json
-  «JSON-looking thing that has the
-  keys and types in it»
-  ```
-
-  <!-- * Headers:
-  * Authorization: Bearer token -->
-
 ### Get a list of chefs
 
 - Endpoint path: /chefs/
@@ -41,9 +10,10 @@
     "chefs": [
       {
         "id": number,
-        "name": string,
+        "first_name": string,
+        "last_name": string,
         "payrate": float,
-        "culinary_expertise": string,
+        "cuisine": string,
         "years_of_experience": number,
         "picture_url": string,
       }
@@ -61,19 +31,12 @@
   ```json
   {
     "id": number,
-    "name": string,
+    "first_name": string,
+    "last_name": string,
     "payrate": float,
-    "culinary_expertise": string,
+    "cuisine": string,
     "years_of_experience": number,
     "picture_url": string,
-    "events": [
-        {
-            "venue": string,
-            "start_date": datetime,
-            "end_date": datetime,
-            "address": string,
-        }
-    ]
   }
   ```
 
@@ -82,12 +45,14 @@
 - Endpoint path: /chefs/
 - Endpoint method: POST
 
-* Request body:
+- Request shape:
+
   ```json
   {
-    "name": string,
+    "first_name": string,
+    "last_name": string,
     "payrate": float,
-    "culinary_expertise": string,
+    "cuisine": string,
     "years_of_experience": number,
     "picture_url": string,
   }
@@ -107,12 +72,18 @@
 - Endpoint path: /chefs/\<id>
 - Endpoint method: PUT
 
-* Request body:
+- Headers:
+
+  - Authorization: Bearer token
+
+- Request shape:
+
   ```json
   {
-    "name": string,
+    "first_name": string,
+    "last_name": string,
     "payrate": float,
-    "culinary_expertise": string,
+    "cuisine": string,
     "years_of_experience": number,
     "picture_url": string,
   }
@@ -122,9 +93,10 @@
 - Response shape:
   ```json
   {
-    "name": string,
+    "first_name": string,
+    "last_name": string,
     "payrate": float,
-    "culinary_expertise": string,
+    "cuisine": string,
     "years_of_experience": number,
     "picture_url": string,
   }
@@ -140,48 +112,29 @@
   ```json
   {
     "events": [
-        {
-            "id": number,
-            "venue": string,
-            "start_date": datetime,
-            "end_date": datetime,
-            "address": string,
-            "picture_url": string,
-        }
+      {
+        "id": number,
+        "venue": string,
+        "date": date,
+        "time": time,
+        "address": string,
+        "picture_url": string,
+      }
     ]
   }
   ```
-
-<!-- ### Get event detail
-
-- Endpoint path: /events/\<id>
-- Endpoint method: GET
-
-- Response: An event detail
-- Response shape:
-  ```json
-  {
-    {
-        "id": number,
-        "venue": string,
-        "start_date": datetime,
-        "end_date": datetime,
-        "address": string,
-        "picture_url": string,
-        "chef": {
-            "id": number,
-            "name": string,
-        }
-    }
-  }
-  ``` -->
 
 ### Create an event
 
 - Endpoint path: /events/
 - Endpoint method: POST
 
-* Request body:
+- Headers:
+
+  - Authorization: Bearer token
+
+- Request shape:
+
   ```json
   {
     "venue": string,
@@ -206,7 +159,12 @@
 - Endpoint path: /events/\<id>
 - Endpoint method: PUT
 
-* Request body:
+- Headers:
+
+  - Authorization: Bearer token
+
+- Request shape:
+
   ```json
   {
     "venue": string,
@@ -234,6 +192,10 @@
 - Endpoint path: /events/\<id>
 - Endpoint method: DELETE
 
+- Headers:
+
+  - Authorization: Bearer token
+
 - Response: An indication of success or failure
 - Response shape:
   ```json
@@ -251,7 +213,7 @@
 - Request shape (form):
 
   ```
-  email: string
+  username: string
   password: string
   ```
 
