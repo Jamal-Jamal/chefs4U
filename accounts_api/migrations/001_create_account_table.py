@@ -8,10 +8,10 @@ steps = [
             password TEXT NOT NULL,
             name TEXT NOT NULL,
             is_chef BOOL NOT NULL,
-            pay_rate TEXT NOT NULL,
-            cuisine TEXT NOT NULL,
-            years_of_experience INTEGER NOT NULL,
-            picture_url TEXT NOT NULL
+            pay_rate TEXT,
+            cuisine TEXT,
+            years_of_experience INTEGER,
+            picture_url TEXT
         );
         """,
         # "Down" SQL statement

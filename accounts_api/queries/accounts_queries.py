@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
+from typing import Optional
 from queries.pool import pool
 
 class AccountIn(BaseModel):
@@ -7,10 +8,10 @@ class AccountIn(BaseModel):
     password: str
     name: str
     is_chef: bool
-    pay_rate: str
-    cuisine: str
-    years_of_experience: int
-    picture_url: str
+    pay_rate: Optional[str]
+    cuisine: Optional[str]
+    years_of_experience: Optional[int]
+    picture_url: Optional[str]
 
 
 class AccountOut(BaseModel):
@@ -18,10 +19,10 @@ class AccountOut(BaseModel):
     username: str
     name: str
     is_chef: bool
-    pay_rate: str
-    cuisine: str
-    years_of_experience: int
-    picture_url: str
+    pay_rate: Optional[str]
+    cuisine: Optional[str]
+    years_of_experience: Optional[int]
+    picture_url: Optional[str]
 
 
 class AccountRespository:
