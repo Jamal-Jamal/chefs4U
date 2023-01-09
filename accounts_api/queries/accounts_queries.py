@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional
-from typing import Optional
 from queries.pool import pool
+
 
 class AccountIn(BaseModel):
     username: str
@@ -32,7 +32,8 @@ class AccountRespository:
                 result = db.execute(
                     """
                     INSERT INTO accounts
-                        (username, password, name, is_chef, pay_rate, cuisine, years_of_experience, picture_url)
+                        (username, password, name, is_chef, pay_rate,
+                        cuisine, years_of_experience, picture_url)
                     VALUES
                         (%s, %s, %s, %s, %s, %s, %s, %s)
                     RETURNING id;
@@ -46,7 +47,7 @@ class AccountRespository:
                         account.cuisine,
                         account.years_of_experience,
                         account.picture_url,
-                    ]
+                    ],
                 )
 
                 id = result.fetchone()[0]

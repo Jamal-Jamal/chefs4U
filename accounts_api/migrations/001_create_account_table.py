@@ -11,12 +11,13 @@ steps = [
             pay_rate TEXT,
             cuisine TEXT,
             years_of_experience INTEGER,
-            picture_url TEXT
+            picture_url TEXT,
+            events_favorited INTEGER[]
         );
         """,
         # "Down" SQL statement
         """
         DROP TABLE accounts;
-        """
+        """,
     ]
 ]
