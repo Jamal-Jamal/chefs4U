@@ -1,6 +1,8 @@
 volumes:
     postgres-data:
         external: true
+    pg-admin:
+        external: true
 services:
   accounts:
     build:
@@ -52,3 +54,14 @@ services:
       - POSTGRES_PASSWORD=test-databases
     ports:
       - 15432:5432
+
+  pg-admin:
+    image: dpage/pgadmin4
+    volumes:
+      - pg-admin:/var/lib/pgadmin
+    ports:
+      - 8082:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@email.com
+      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_DISABLE_POSTFIX: 1
