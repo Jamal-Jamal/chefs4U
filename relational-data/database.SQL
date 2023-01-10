@@ -1,0 +1,13 @@
+-- DROP TABLE IF EXISTS accounts CASCADE;
+
+-- CREATE TABLE accounts (
+--     id SERIAL PRIMARY KEY NOT NULL,
+--   username VARCHAR(100) UNIQUE NOT NULL,
+--   password VARCHAR(200) NOT NULL,
+--   name VARCHAR(25) NOT NULL,
+--   is_chef BOOLEAN NOT NULL,
+--   pay_rate VARCHAR(2000) NOT NULL,
+--   cuisine VARCHAR(100) NOT NULL,
+--   years_of_experience INTEGER NOT NULL,
+--   picture_url VARCHAR(2000) NOT NULL
+-- );
