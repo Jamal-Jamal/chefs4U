@@ -71,6 +71,7 @@ function SignUpForm(props) {
 
 
   return (
+    <div className="container">
     <Form onSubmit={handleSubmit}>
       <Form.Group controlId="formUsername">
         <Form.Label>Username</Form.Label>
@@ -159,6 +160,7 @@ function SignUpForm(props) {
         Sign up
         </Button>
     </Form>
+    </div>
   );
 }
 
