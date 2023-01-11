@@ -35,8 +35,9 @@ router = APIRouter()
 # def create_account(account: AccountIn, repo: AccountRepository = Depends()):
 #     return repo.create(account)
 
-@router.get("/protected", response_model=bool)
-async def get_protected(account_data: dict = Depends(authenticator.get_current_account_data),
+@router.get("/api/protected", response_model=bool)
+async def get_protected(
+    account_data: dict = Depends(authenticator.get_current_account_data),
 ):
     return True
 
