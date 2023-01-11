@@ -16,6 +16,7 @@
 
 - id serial primary key, not null
 - venue string, not null
+- description string, not null
 - date date, not null
 - time time, not null
 - address string, not null
