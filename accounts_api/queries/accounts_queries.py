@@ -1,6 +1,11 @@
 from pydantic import BaseModel
 from typing import Optional
 from queries.pool import pool
+from psycopg.errors import UniqueViolation
+
+
+class DuplicateAccountError(ValueError):
+    pass
 
 
 class AccountIn(BaseModel):
@@ -25,8 +30,12 @@ class AccountOut(BaseModel):
     picture_url: Optional[str]
 
 
-class AccountRespository:
-    def create(self, account: AccountIn) -> AccountOut:
+class AccountOutWithPassword(AccountOut):
+    hashed_password: str
+
+
+class AccountRepository:
+    def create(self, account: AccountIn) -> AccountOutWithPassword:
         with pool.connection() as connection:
             with connection.cursor() as db:
                 result = db.execute(
@@ -53,3 +62,14 @@ class AccountRespository:
                 id = result.fetchone()[0]
                 old_data = account.dict()
                 return AccountOut(id=id, **old_data)
+
+    def password_create(self, info: AccountIn, hashed_password: str, roles=["patron"]) -> AccountOutWithPassword:
+        props = info.dict()
+        props["password"] = hashed_password
+        props["roles"] = roles
+        try:
+            self.collection.insert_one(props)
+        except UniqueViolation as e:
+            raise DuplicateAccountError('A duplicate record already exists')
+        props["id"] = str(props["_id"])
+        return AccountOutWithPassword(**props)
