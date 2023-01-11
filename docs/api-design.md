@@ -137,11 +137,13 @@
 
   ```json
   {
-    "venue": string,
-    "start_date": datetime,
-    "end_date": datetime,
-    "address": string,
-    "picture_url": string,
+    "venue": "string",
+    "description": "string",
+    "date": "string",
+    "time": "string",
+    "address": "string",
+    "picture_url": "string",
+    "chef_id": number
   }
   ```
 
@@ -149,8 +151,14 @@
 - Response shape:
   ```json
   {
-    "success": boolean,
-    "message": string
+    "id": number,
+    "venue": "string",
+    "description": "string",
+    "date": "string",
+    "time": "string",
+    "address": "string",
+    "picture_url": "string",
+    "chef_id": number
   }
   ```
 
