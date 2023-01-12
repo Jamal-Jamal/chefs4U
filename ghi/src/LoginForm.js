@@ -2,10 +2,11 @@ import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import ".//AccountForms.css"
 
 export const LoginForm = () => {
     const [username, setUsername] = useState('');
-    const[pass, setPass] = useState('');
+    const[password, setPassword] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -18,17 +19,46 @@ export const LoginForm = () => {
     }
 
     return (
-        <Form>
-            <Form.Group onSubmit={handleSubmit}>
-                <label htmlFor="username">username</label>
-                <input value={username} onChange={e => setUsername(e.target.value)}type="username" placeholder="username" id="username" name="username" />
-                <label htmlFor="password">password</label>
-                <input value={pass} onChange={e => setPass(e.target.value)}type="password" placeholder="*******" id="password" name="password" />
-                <Button variant="primary" type="submit">Login
-                </Button>
-            </Form.Group>
+        <div className="container py-5 h-100">
+            <div className="row d-flex justify-content-center align-items-center h-100">
+                <div className="col col-xl-10">
+                    <div className="card text-black">
+                        <div className="card-body p-md-5">
+                            <div className="row justify-content-center">
+                                <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+        <Form className='form-outline mb-4' onSubmit={handleSubmit}>
+        <p>Please login to your account</p>
+        <Form.Group controlId="formUsername">
+        <Form.Label>Username</Form.Label>
+        <Form.Control
+          type="text"
+          placeholder="Enter username"
+          value={username}
+          onChange={(event) => setUsername(event.target.value)}
+        />
+      </Form.Group>
+
+      <Form.Group controlId="formPassword">
+        <Form.Label>Password</Form.Label>
+        <Form.Control
+          type="password"
+          placeholder="********"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+        />
+      </Form.Group>
+            <div className='pt-1 mb-4'>
+            <Button variant="primary" type="submit">Login</Button>
+            </div>
             <Button variant="primary" onClick={handleClick}>Don't have an account? Sign up here</Button>
         </Form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     )
 
 }

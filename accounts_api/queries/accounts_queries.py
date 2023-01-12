@@ -36,7 +36,7 @@ class AccountOut(BaseModel):
 class AccountOutWithPassword(AccountOut):
     password: str
 
-class AccountRespository:
+class AccountRepository:
     def create(self, account: AccountIn, hashed_password: str) -> AccountOutWithPassword:
         with pool.connection() as connection:
             with connection.cursor() as db:
@@ -51,7 +51,7 @@ class AccountRespository:
                     """,
                     [
                         account.username,
-                        hashed_password,
+                        account.password,
                         account.name,
                         account.is_chef,
                         account.pay_rate,

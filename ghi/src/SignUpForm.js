@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
+import ".//AccountForms.css"
 
 class Data {
     constructor(username, password, name, is_chef=false, pay_rate=null, cuisine=null, years_of_experience=null,picture_url=null) {
@@ -71,8 +72,14 @@ function SignUpForm(props) {
 
 
   return (
-    <div className="container">
-    <Form onSubmit={handleSubmit}>
+     <div className="container h-100">
+        <div className="row d-flex justify-content-center align-items-center h-100">
+          <div className="col-lg-12 col-xl-11">
+            <div className="card text-black">
+              <div className="card-body p-md-5">
+                <div className="row justify-content-center">
+                  <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+    <Form className="login-form" onSubmit={handleSubmit}>
       <Form.Group controlId="formUsername">
         <Form.Label>Username</Form.Label>
         <Form.Control
@@ -87,7 +94,7 @@ function SignUpForm(props) {
         <Form.Label>Password</Form.Label>
         <Form.Control
           type="password"
-          placeholder="Enter password"
+          placeholder="********"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />
@@ -160,7 +167,14 @@ function SignUpForm(props) {
         Sign up
         </Button>
     </Form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
   );
 }
 

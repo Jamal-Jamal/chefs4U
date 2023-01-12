@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # router.py
 from fastapi import (
     Depends,
@@ -19,40 +18,6 @@ from queries.accounts_queries import (
 )
 
 
-=======
-# from fastapi import APIRouter, Depends
-# from queries.accounts_queries import AccountIn, AccountRespository
-
-
-# router = APIRouter()
-
-
-# @router.post("/accounts")
-# def create_account(account: AccountIn, repo: AccountRespository = Depends()):
-#     return repo.create(account)
-
-# router.py
-from fastapi import (
-    Depends,
-    HTTPException,
-    status,
-    Response,
-    APIRouter,
-    Request,
-)
-from jwtdown_fastapi.authentication import Token
-from authenticator import authenticator
-
-from pydantic import BaseModel
-
-from queries.accounts_queries import (
-    AccountIn,
-    AccountOut,
-    AccountRespository,
-    DuplicateAccountError,
-)
-
->>>>>>> testing-backend-auth
 class AccountForm(BaseModel):
     username: str
     password: str
@@ -71,7 +36,7 @@ async def create_account(
     info: AccountIn,
     request: Request,
     response: Response,
-    accounts: AccountRespository = Depends(),
+    accounts: AccountRepository = Depends(),
 ):
     hashed_password = authenticator.hash_password(info.password)
     try:
