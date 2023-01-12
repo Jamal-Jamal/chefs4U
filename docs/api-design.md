@@ -102,24 +102,25 @@
   }
   ```
 
-### Get a list of events
+### Get a list of all events
 
 - Endpoint path: /events/
 - Endpoint method: GET
 
-- Response: A list of events
+- Response: A list of all events
 - Response shape:
   ```json
   {
-    "events": [
-      {
-        "id": number,
-        "venue": string,
-        "date": date,
-        "time": time,
-        "address": string,
-        "picture_url": string,
-      }
+    "id": number,
+    "venue": string,
+    "description": string,
+    "date": date,
+    "time": time with timezone,
+    "address": string,
+    "picture_url": string,
+    "chef_id": number,
+    "users_favorited": [
+      number
     ]
   }
   ```
@@ -137,27 +138,27 @@
 
   ```json
   {
-    "venue": "string",
-    "description": "string",
-    "date": "string",
-    "time": "string",
-    "address": "string",
-    "picture_url": "string",
+    "venue": string,
+    "description": string,
+    "date": date,
+    "time": time with timezone,
+    "address": string,
+    "picture_url": string,
     "chef_id": number
   }
   ```
 
-- Response: An indication of success or failure
+- Response: An indication of success
 - Response shape:
   ```json
   {
     "id": number,
-    "venue": "string",
-    "description": "string",
-    "date": "string",
-    "time": "string",
-    "address": "string",
-    "picture_url": "string",
+    "venue": string,
+    "description": string,
+    "date": date,
+    "time": time with timezone,
+    "address": string,
+    "picture_url": string,
     "chef_id": number
   }
   ```
