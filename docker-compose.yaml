@@ -13,8 +13,11 @@ services:
     volumes:
       - ./accounts_api:/app
     environment:
+      SIGNING_KEY: 354k2jhjk534h5k235h4j3k25hkl236k326h2346jl32l63k6
       DATABASE_URL: postgresql://accounts:password@postgres/accounts
       WAIT_HOSTS: postgres:5432
+      WAIT_BEFORE: 5
+      WAIT_TIMEOUT: 60
 
   events:
     build:
