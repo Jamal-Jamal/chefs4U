@@ -62,6 +62,7 @@ async def create_account(
     account: AccountRepository = Depends(),
 ):
     hashed_password = authenticator.hash_password(info.password)
+    print("JWTPASSWORD****", hashed_password)
     try:
         account = account.create(info, hashed_password)
     except DuplicateAccountError:
@@ -69,6 +70,7 @@ async def create_account(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Cannot create an account with those credentials",
         )
-    form = AccountForm(username=info.email, password=info.password)
+    form = AccountForm(username=info.username, password=info.password)
+    print()
     token = await authenticator.login(response, request, form, account)
     return AccountToken(account=account, **token.dict())

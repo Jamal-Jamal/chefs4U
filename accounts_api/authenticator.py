@@ -17,18 +17,19 @@ class AppAuthenticator(Authenticator):
     ):
         # Use your repo to get the account based on the
         # username (which could be an email)
-        return accounts.get(username)
+        repo = AccountRepository()
+        return repo.get_user(username)
 
     def get_account_getter(
         self,
-        accounts: AccountRepository = Depends(),
-    ):
+        accounts: AccountRepository = Depends()) -> AccountRepository:
         # Return the accounts. That's it.
         return accounts
 
     def get_hashed_password(self, account: AccountOutWithPassword):
         # Return the encrypted password value from your
         # account object
+        print("***HASHED PASSWORD***", account)
         return account.hashed_password
 
     def get_account_data_for_cookie(self, account: AccountOut):

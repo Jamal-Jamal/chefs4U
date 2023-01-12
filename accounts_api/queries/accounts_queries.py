@@ -35,16 +35,16 @@ class AccountOutWithPassword(AccountOut):
 
 
 class AccountRepository:
-    def create(self, account: AccountIn) -> AccountOutWithPassword:
+    def create(self, account: AccountIn, hashed_password:str) -> AccountOutWithPassword:
         with pool.connection() as connection:
             with connection.cursor() as db:
                 result = db.execute(
                     """
                     INSERT INTO accounts
                         (username, password, name, is_chef, pay_rate,
-                        cuisine, years_of_experience, picture_url)
+                        cuisine, years_of_experience, picture_url, hashed_password)
                     VALUES
-                        (%s, %s, %s, %s, %s, %s, %s, %s)
+                        (%s, %s, %s, %s, %s, %s, %s, %s, %s)
                     RETURNING id;
                     """,
                     [
@@ -56,6 +56,7 @@ class AccountRepository:
                         account.cuisine,
                         account.years_of_experience,
                         account.picture_url,
+                        hashed_password
                     ],
                 )
 
@@ -73,3 +74,31 @@ class AccountRepository:
             raise DuplicateAccountError('A duplicate record already exists')
         props["id"] = str(props["_id"])
         return AccountOutWithPassword(**props)
+
+    def get_user(self, username: str) -> AccountOut:
+        with pool.connection() as connection:
+            with connection.cursor() as db:
+                result = db.execute(
+                    """
+                    SELECT (id, username, name, is_chef, pay_rate, cuisine,
+                            years_of_experience, picture_url)
+                    FROM accounts
+                    WHERE (%s = username);
+                    """,
+                    [username],
+                )
+                row = result.fetchone()[0]
+        #props = self.collection.find_one({"email": email})
+        if not result:
+            return None
+        print(row)
+        return AccountOut(
+                id=row[0],
+                username=row[1],
+                name=row[2],
+                is_chef=row[3],
+                pay_rate=row[4],
+                cuisine=row[5],
+                years_of_experience=row[6],
+                picture_url=row[7]
+            )
