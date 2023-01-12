@@ -6,6 +6,7 @@ from queries.pool import pool
 class DuplicateAccountError(ValueError):
     pass
 
+
 class AccountIn(BaseModel):
     username: str
     password: str
@@ -31,7 +32,8 @@ class AccountOut(BaseModel):
 class AccountOutWithPassword(AccountOut):
     password: str
 
-class AccountRespository:
+
+class AccountRepository:
     def create(self, account: AccountIn, hashed_password: str) -> AccountOutWithPassword:
         with pool.connection() as connection:
             with connection.cursor() as db:
@@ -61,7 +63,6 @@ class AccountRespository:
 
                 return AccountOutWithPassword(id=id, **old_data)
 
-
     def get(self, username: str) -> AccountOutWithPassword:
         with pool.connection() as connection:
             with connection.cursor() as db:
@@ -75,7 +76,7 @@ class AccountRespository:
                     [username],
                 )
                 row = result.fetchone()[0]
-        #props = self.collection.find_one({"email": email})
+        # props = self.collection.find_one({"email": email})
         if not result:
             return None
         return AccountOutWithPassword(

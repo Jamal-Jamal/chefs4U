@@ -1,15 +1,10 @@
 # from fastapi import APIRouter, Depends
-# from queries.accounts_queries import AccountIn, AccountRespository
-
-
+# from queries.accounts_queries import AccountIn, AccountRepository
 # router = APIRouter()
-
-
 # @router.post("/accounts")
-# def create_account(account: AccountIn, repo: AccountRespository = Depends()):
+# def create_account(account: AccountIn, repo: AccountRepository = Depends()):
 #     return repo.create(account)
 
-# router.py
 from fastapi import (
     Depends,
     HTTPException,
@@ -26,19 +21,23 @@ from pydantic import BaseModel
 from queries.accounts_queries import (
     AccountIn,
     AccountOut,
-    AccountRespository,
+    AccountRepository,
     DuplicateAccountError,
 )
+
 
 class AccountForm(BaseModel):
     username: str
     password: str
 
+
 class AccountToken(Token):
     account: AccountOut
 
+
 class HttpError(BaseModel):
     detail: str
+
 
 router = APIRouter()
 
@@ -48,7 +47,7 @@ async def create_account(
     info: AccountIn,
     request: Request,
     response: Response,
-    accounts: AccountRespository = Depends(),
+    accounts: AccountRepository = Depends(),
 ):
     hashed_password = authenticator.hash_password(info.password)
     try:
@@ -58,6 +57,9 @@ async def create_account(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Cannot create an account with those credentials",
         )
+    # print(account)
+    # print("**********")
+    # print(info)
     form = AccountForm(username=info.username, password=info.password)
     token = await authenticator.login(response, request, form, accounts)
     return AccountToken(account=account, **token.dict())
