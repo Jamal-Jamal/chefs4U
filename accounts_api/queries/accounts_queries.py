@@ -34,18 +34,10 @@ class AccountOut(BaseModel):
 
 
 class AccountOutWithPassword(AccountOut):
-<<<<<<< HEAD
-    hashed_password: str
-
-
-class AccountRepository:
-    def create(self, account: AccountIn, hashed_password:str) -> AccountOutWithPassword:
-=======
     password: str
 
 class AccountRespository:
     def create(self, account: AccountIn, hashed_password: str) -> AccountOutWithPassword:
->>>>>>> testing-backend-auth
         with pool.connection() as connection:
             with connection.cursor() as db:
                 result = db.execute(
@@ -72,42 +64,19 @@ class AccountRespository:
 
                 id = result.fetchone()[0]
                 old_data = account.dict()
-<<<<<<< HEAD
-                return AccountOut(id=id, **old_data)
-
-    def password_create(self, info: AccountIn, hashed_password: str, roles=["patron"]) -> AccountOutWithPassword:
-        props = info.dict()
-        props["password"] = hashed_password
-        props["roles"] = roles
-        try:
-            self.collection.insert_one(props)
-        except UniqueViolation as e:
-            raise DuplicateAccountError('A duplicate record already exists')
-        props["id"] = str(props["_id"])
-        return AccountOutWithPassword(**props)
-
-    def get_user(self, username: str) -> AccountOut:
-=======
 
                 return AccountOutWithPassword(id=id, **old_data)
 
 
     def get(self, username: str) -> AccountOutWithPassword:
->>>>>>> testing-backend-auth
         with pool.connection() as connection:
             with connection.cursor() as db:
                 result = db.execute(
                     """
                     SELECT (id, username, name, is_chef, pay_rate, cuisine,
-<<<<<<< HEAD
-                            years_of_experience, picture_url)
-                    FROM accounts
-                    WHERE (%s = username);
-=======
                             years_of_experience, picture_url, password)
                     FROM accounts
                     WHERE username=(%s);
->>>>>>> testing-backend-auth
                     """,
                     [username],
                 )
@@ -115,12 +84,7 @@ class AccountRespository:
         #props = self.collection.find_one({"email": email})
         if not result:
             return None
-<<<<<<< HEAD
-        print(row)
-        return AccountOut(
-=======
         return AccountOutWithPassword(
->>>>>>> testing-backend-auth
                 id=row[0],
                 username=row[1],
                 name=row[2],
@@ -128,10 +92,6 @@ class AccountRespository:
                 pay_rate=row[4],
                 cuisine=row[5],
                 years_of_experience=row[6],
-<<<<<<< HEAD
-                picture_url=row[7]
-=======
                 picture_url=row[7],
                 password=row[8]
->>>>>>> testing-backend-auth
             )

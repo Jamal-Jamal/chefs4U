@@ -1,13 +1,9 @@
 from authenticator import authenticator
 from fastapi import FastAPI
 from routers import accounts_routers
-<<<<<<< HEAD
 from fastapi.middleware.cors import CORSMiddleware
-import os
-=======
 from authenticator import authenticator
 
->>>>>>> testing-backend-auth
 
 app = FastAPI()
 app.include_router(authenticator.router)
