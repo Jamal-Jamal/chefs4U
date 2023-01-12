@@ -19,10 +19,6 @@ services:
       WAIT_HOSTS: postgres:5432
       WAIT_BEFORE: 5
       WAIT_TIMEOUT: 60
-<<<<<<< HEAD
-
-=======
->>>>>>> testing-backend-auth
 
   events:
     build:
