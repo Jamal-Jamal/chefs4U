@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
-import Nav from "./Nav";
+import NavBar from "./NavBar";
 // import SignUpForm from "./accounts/SignUpForm";
 // import LoginForm from "./accounts/LoginForm";
 import EventList from "./EventList";
@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Nav />
+        <NavBar />
         <Routes>
           {/* <Route path="/login" element={<LoginForm />}></Route>
           <Route path="/signup" element={<SignUpForm />}></Route> */}
