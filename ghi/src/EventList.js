@@ -4,7 +4,6 @@ function EventColumn(props) {
   return (
     <div className="col">
       {props.list.map((data, index) => {
-        console.log(data);
         const dateString = data.date + "T" + data.time;
         const dateObj = new Date(dateString);
         const options = { timeStyle: "short" };
@@ -12,16 +11,14 @@ function EventColumn(props) {
         const time = dateObj.toLocaleTimeString([], options);
         return (
           <div key={index} className="card mb-3 shadow">
-            <div className="card shadow">
-              <img src={data.picture_url} className="card-img-top" alt="..." />
-              <div className="card-body">
-                <h5 className="card-title">{data.venue}</h5>
-                <p className="card-text">
-                  Date: {date} @ {time}
-                </p>
-                <p className="card-text">Address: {data.address}</p>
-                <p className="card-text">Description: {data.description}</p>
-              </div>
+            <img src={data.picture_url} className="card-img-top" alt="..." />
+            <div className="card-body">
+              <h5 className="card-title">{data.venue}</h5>
+              <p className="card-text">
+                Date: {date} @ {time}
+              </p>
+              <p className="card-text">Address: {data.address}</p>
+              <p className="card-text">Description: {data.description}</p>
             </div>
           </div>
         );
@@ -52,7 +49,7 @@ function EventList() {
       }
     }
     fetchData();
-  }, []);
+  }, [eventColumns]);
 
   return (
     <div className="container">
