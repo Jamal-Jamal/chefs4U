@@ -1,6 +1,10 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List, Union
 from queries.pool import pool
+
+
+class Error(BaseModel):
+    message: str
 
 
 class AccountIn(BaseModel):
@@ -53,3 +57,38 @@ class AccountRespository:
                 id = result.fetchone()[0]
                 old_data = account.dict()
                 return AccountOut(id=id, **old_data)
+            
+        
+    def get_all(self) -> Union[Error, List[AccountOut]]:
+        try:
+            # connect the database
+            with pool.connection() as conn:
+                # get a cursor (something to run SQL with)
+                with conn.cursor() as db:
+                    # Run our SELECT statement
+                    result = db.execute(
+                        """
+                        SELECT id, username, name, is_chef, pay_rate,
+                        cuisine, years_of_experience, picture_url
+                        FROM accounts
+                        ORDER BY name;
+                        """
+                    )
+                    result = []
+                    for record in db:
+                        Account = AccountOut(
+                            id=record[0],
+                            username=record[1],
+                            name=record[2],
+                            is_chef=record[3],
+                            pay_rate=record[4],
+                            cuisine=record[5],
+                            years_of_experience=record[6],
+                            picture_url=record[7],
+                        )
+                        result.append(Account)
+                    return result
+        except Exception as e:
+            print(e)
+            return {"message": "Could not get all accounts"}
+
