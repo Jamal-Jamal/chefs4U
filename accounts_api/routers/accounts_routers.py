@@ -8,9 +8,8 @@ from fastapi import (
 )
 from jwtdown_fastapi.authentication import Token
 from authenticator import authenticator
-
 from pydantic import BaseModel
-
+from typing import List, Union
 from queries.accounts_queries import (
     AccountIn,
     AccountOut,
@@ -30,6 +29,10 @@ class AccountToken(Token):
 
 class HttpError(BaseModel):
     detail: str
+
+
+class Error(BaseModel):
+    message: str
 
 
 router = APIRouter()
@@ -73,3 +76,10 @@ async def get_token(
             "type": "Bearer",
             "account": account,
         }
+
+
+@router.get("/accounts", response_model=Union[Error, List[AccountOut]])
+def get_all(
+    repo: AccountRepository = Depends(),
+):
+    return repo.get_all()
