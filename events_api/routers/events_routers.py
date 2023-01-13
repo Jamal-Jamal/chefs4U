@@ -23,3 +23,11 @@ def get_all(
     repo: EventRepository = Depends(),
 ):
     return repo.get_all()
+
+
+@router.delete("/events/{event_id}", response_model=bool)
+def delete_event(
+    event_id: int,
+    repo: EventRepository = Depends(),
+) -> bool:
+    return repo.delete(event_id)
