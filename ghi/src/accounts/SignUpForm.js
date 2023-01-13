@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import ".//AccountForms.css"
+import { Navigate} from 'react-router-dom';
+import { useToken } from './Authentication';
+// import ".//AccountForms.css"
 
 class Data {
     constructor(username, password, name, is_chef=false, pay_rate=null, cuisine=null, years_of_experience=null,picture_url=null) {
@@ -17,6 +19,7 @@ class Data {
 
 
 function SignUpForm(props) {
+  const [token, login, logout, signup] = useToken();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
@@ -51,7 +54,8 @@ function SignUpForm(props) {
         d.picture_url = data.pictureUrl;
     }
     try {
-        const response = await fetch("http://localhost:8000/accounts", {
+        const url = `${process.env.REACT_APP_ACCOUNT_SERVICE}/api/accounts`;
+        const response = await fetch(url, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(d)

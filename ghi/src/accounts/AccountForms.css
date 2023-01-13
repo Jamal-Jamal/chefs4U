@@ -5,7 +5,7 @@
     align-items: center;
     justify-content: center;
     color: rgb(240, 242, 242);
-    background-image: url("Chef_background.png");
+    /* background-image: url("Chef_background.png"); */
   }
 
   .auth-form-container, .login-form, .register-form {

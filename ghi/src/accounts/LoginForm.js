@@ -3,19 +3,23 @@ import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import ".//AccountForms.css"
+import { useToken } from './Authentication.js';
 
-export const LoginForm = () => {
-    const [username, setUsername] = useState('');
-    const[password, setPassword] = useState('');
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(username);
-    }
+function LoginForm(props) {
     const navigate = useNavigate();
+    const [token, login] = useToken();
+
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleSubmit = async (e) => {
+      login(username, password);
+      e.preventDefault();
+      navigate("/MainPage");
+    };
 
     function handleClick() {
-        navigate('/signup');
+        navigate("/signup");
     }
 
     return (

@@ -40,25 +40,27 @@ class AccountRepository:
     def create(self, account: AccountIn, hashed_password: str) -> AccountOutWithPassword:
         with pool.connection() as connection:
             with connection.cursor() as db:
+                #look for username in database
+                #if there is one already, return an error "Username is already in use"
+                #else: execute
                 result = db.execute(
                     """
                     INSERT INTO accounts
                         (username, password, name, is_chef, pay_rate,
-                        cuisine, years_of_experience, picture_url, hashed_password)
+                        cuisine, years_of_experience, picture_url)
                     VALUES
-                        (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+                        (%s, %s, %s, %s, %s, %s, %s, %s)
                     RETURNING id;
                     """,
                     [
                         account.username,
-                        account.password,
+                        hashed_password,
                         account.name,
                         account.is_chef,
                         account.pay_rate,
                         account.cuisine,
                         account.years_of_experience,
                         account.picture_url,
-                        hashed_password
                     ],
                 )
 
