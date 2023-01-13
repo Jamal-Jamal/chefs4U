@@ -1,18 +1,20 @@
-// import React, { useState} from 'react';
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
-// import SignUpForm from "./SignUpForm"
-// import LoginForm from "./LoginForm"
+// import SignUpForm from "./accounts/SignUpForm";
+// import LoginForm from "./accounts/LoginForm";
 import EventList from "./EventList";
 
 function App() {
-  // const [currentForm, setCurrentForm] = useState('login');
-
   return (
     <div className="App">
-      <EventList />
-      {/* {
-                currentForm === "login" ? <LoginForm /> : <SignUpForm />
-            } */}
+      <BrowserRouter>
+        <Routes>
+          {/* <Route path="/login" element={<LoginForm />}></Route>
+          <Route path="/signup" element={<SignUpForm />}></Route> */}
+          <Route path="/events" element={<EventList />}></Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

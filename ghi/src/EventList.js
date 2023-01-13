@@ -4,6 +4,7 @@ function EventColumn(props) {
   return (
     <div className="col">
       {props.list.map((data, index) => {
+        console.log(data);
         const dateString = data.date + "T" + data.time;
         const dateObj = new Date(dateString);
         const options = { timeStyle: "short" };
@@ -12,12 +13,7 @@ function EventColumn(props) {
         return (
           <div key={index} className="card mb-3 shadow">
             <div className="card shadow">
-              <img
-                src={data.picture_url}
-                className="card-img-top"
-                width="1"
-                alt="..."
-              />
+              <img src={data.picture_url} className="card-img-top" alt="..." />
               <div className="card-body">
                 <h5 className="card-title">{data.venue}</h5>
                 <p className="card-text">
