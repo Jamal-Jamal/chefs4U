@@ -57,8 +57,7 @@ class AccountRespository:
                 id = result.fetchone()[0]
                 old_data = account.dict()
                 return AccountOut(id=id, **old_data)
-            
-        
+
     def get_all(self) -> Union[Error, List[AccountOut]]:
         try:
             # connect the database
@@ -91,4 +90,3 @@ class AccountRespository:
         except Exception as e:
             print(e)
             return {"message": "Could not get all accounts"}
-

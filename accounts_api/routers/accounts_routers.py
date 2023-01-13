@@ -6,8 +6,10 @@ from pydantic import BaseModel
 
 router = APIRouter()
 
+
 class Error(BaseModel):
     message: str
+
 
 @router.post("/accounts")
 def create_account(account: AccountIn, repo: AccountRespository = Depends()):
