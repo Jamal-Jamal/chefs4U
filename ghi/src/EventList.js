@@ -49,7 +49,7 @@ function EventList() {
       }
     }
     fetchData();
-  }, [eventColumns]);
+  }, []);
 
   return (
     <div className="container">
