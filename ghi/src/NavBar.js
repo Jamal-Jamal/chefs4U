@@ -13,6 +13,11 @@ function NavBar() {
               Events
             </NavLink>
           </li>
+          <li>
+            <NavLink className="nav-link" aria-current="page" to="add-event">
+              Add An Event
+            </NavLink>
+          </li>
         </ul>
       </div>
     </nav>

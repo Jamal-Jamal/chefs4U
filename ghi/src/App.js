@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import NavBar from "./NavBar";
 import EventList from "./EventList";
+import EventForm from "./EventForm";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <NavBar />
         <Routes>
           <Route path="/events" element={<EventList />}></Route>
+          <Route path="/add-event" element={<EventForm />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
