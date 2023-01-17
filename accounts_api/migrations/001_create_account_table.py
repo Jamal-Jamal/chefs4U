@@ -4,7 +4,7 @@ steps = [
         """
         CREATE TABLE accounts (
             id SERIAL PRIMARY KEY,
-            username TEXT NOT NULL,
+            username TEXT NOT NULL UNIQUE,
             password TEXT NOT NULL,
             name TEXT NOT NULL,
             is_chef BOOL NOT NULL,
