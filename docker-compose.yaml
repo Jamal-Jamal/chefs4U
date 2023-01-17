@@ -1,8 +1,8 @@
 volumes:
-    postgres-data:
-        external: true
-    pg-admin:
-        external: true
+  postgres-data:
+    external: true
+  pg-admin:
+    external: true
 services:
   accounts:
     build:
@@ -19,7 +19,6 @@ services:
       WAIT_BEFORE: 5
       WAIT_TIMEOUT: 60
 
-
   events:
     build:
       context: events_api
@@ -35,7 +34,6 @@ services:
       WAIT_BEFORE: 5
       WAIT_TIMEOUT: 60
 
-
   ghi:
     image: node:lts-bullseye
     command: /bin/bash run.sh
@@ -49,7 +47,8 @@ services:
       NODE_ENV: development
       HOST: "0.0.0.0"
       PUBLIC_URL: http://localhost:3000
-      REACT_APP_SAMPLE_SERVICE_API_HOST: http://localhost:8000
+      REACT_APP_ACCOUNTS_API_HOST: http://localhost:8000
+      REACT_APP_EVENTS_API_HOST: http://localhost:8001
 
   postgres:
     build:

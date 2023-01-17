@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function BootstrapInput(props) {
   const { id, labelText, value, onChange, type } = props;
@@ -29,6 +29,15 @@ function EventForm(props) {
   const [address, setAddress] = useState("");
   const [pictureUrl, setPictureUrl] = useState("");
 
+  useEffect(() => {
+    async function getLogin() {
+      const response = await fetch(
+        "http://localhost:8000/token"
+      )
+    }
+    getLogin();
+  }, []);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = {
@@ -40,7 +49,7 @@ function EventForm(props) {
       picture_url: pictureUrl,
       chef_id: 1,
     };
-    const serviceUrl = "http://localhost:8001/events";
+    const serviceUrl = `${process.env.REACT_APP_EVENTS_API_HOST}/events`;
     const fetchConfig = {
       method: "post",
       body: JSON.stringify(data),
