@@ -13,6 +13,7 @@ from typing import List, Union
 from queries.accounts_queries import (
     AccountIn,
     AccountOut,
+    FavoriteIn,
     AccountRepository,
     DuplicateAccountError,
 )
@@ -58,13 +59,6 @@ async def create_account(
     return AccountToken(account=account, **token.dict())
 
 
-@router.get("/api/protected", response_model=bool)
-async def get_protected(
-    account_data: dict = Depends(authenticator.get_current_account_data),
-):
-    return True
-
-
 @router.get("/token", response_model=AccountToken | None)
 async def get_token(
     request: Request,
@@ -83,3 +77,13 @@ def get_all(
     repo: AccountRepository = Depends(),
 ):
     return repo.get_all()
+
+
+@router.put("/api/accounts/favorite")
+def favorite_event(
+    event: FavoriteIn,
+    account_data: dict = Depends(authenticator.get_current_account_data),
+    accounts: AccountRepository = Depends(),
+):
+    user_id = account_data["id"]
+    return accounts.favorite(event, user_id)

@@ -31,10 +31,15 @@ class AccountOut(BaseModel):
     cuisine: Optional[str]
     years_of_experience: Optional[int]
     picture_url: Optional[str]
+    events_favorited: Optional[list[int]]
 
 
 class AccountOutWithPassword(AccountOut):
     password: str
+
+
+class FavoriteIn(BaseModel):
+    event_id: int
 
 
 class AccountRepository:
@@ -130,3 +135,38 @@ class AccountRepository:
         except Exception as e:
             print(e)
             return {"message": "Could not get all accounts"}
+
+    def favorite(self, event: FavoriteIn, user_id: int):
+        with pool.connection() as connection:
+            with connection.cursor() as db:
+                result = db.execute(
+                    """
+                    SELECT events_favorited
+                    FROM accounts
+                    WHERE id = %s;
+                    """,
+                    [user_id]
+                )
+                for row in result:
+                    event_list = row[0]
+                    if event.event_id in event_list:
+                        result = db.execute(
+                            """
+                            UPDATE accounts
+                            SET events_favorited
+                                = array_remove(events_favorited, %s)
+                            where id = %s;
+                            """,
+                            [event.event_id, user_id]
+                        )
+                    else:
+                        result = db.execute(
+                            """
+                            UPDATE accounts
+                            SET events_favorited
+                                = array_append(events_favorited, %s)
+                            WHERE id = %s;
+                            """,
+                            [event.event_id, user_id]
+                        )
+                    return True
