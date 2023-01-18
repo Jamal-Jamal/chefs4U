@@ -7,7 +7,7 @@ steps = [
             venue VARCHAR(1000) NOT NULL,
             description TEXT NOT NULL,
             date DATE NOT NULL,
-            time TIME with time zone NOT NULL,
+            time TIME NOT NULL,
             address VARCHAR(1000) NOT NULL,
             picture_url VARCHAR(1000) NOT NULL,
             chef_id integer NOT NULL,
