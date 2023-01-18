@@ -1,7 +1,11 @@
 from pydantic import BaseModel
-from typing import Optional, List
+from typing import Optional, List, Union
 from queries.pool import pool
 from datetime import date, time
+
+
+class Error(BaseModel):
+    message: str
 
 
 class EventIn(BaseModel):
@@ -30,6 +34,7 @@ class FavoriteEventIn(BaseModel):
 
 
 class EventRepository:
+
     def create(self, event: EventIn, user_id: int) -> EventOut:
         with pool.connection() as connection:
             with connection.cursor() as db:
@@ -145,3 +150,50 @@ class EventRepository:
                         return True
                     else:
                         return False
+
+    def update(self, event_id: int,
+               event: EventIn,
+               chef_id: int) -> Union[EventOut, Error]:
+        try:
+            # connect the database
+            with pool.connection() as conn:
+                # get cursor (something to run SQL with)
+                with conn.cursor() as db:
+                    result = db.execute(
+                        """
+                        SELECT chef_id
+                        FROM events
+                        WHERE id=%s;
+                        """,
+                        [event_id]
+                    )
+                    for row in result:
+                        print(row[0])
+                        if chef_id == row[0]:
+                            db.execute(
+                                """
+                                UPDATE events
+                                SET venue = %s
+                                , description = %s
+                                , date = %s
+                                , time = %s
+                                , address = %s
+                                , picture_url = %s
+                                WHERE id = %s
+                                """,
+                                [
+                                    event.venue,
+                                    event.description,
+                                    event.date,
+                                    event.time,
+                                    event.address,
+                                    event.picture_url,
+                                    event_id,
+                                ]
+                            )
+                        old_data = event.dict()
+                        return EventOut(id=event_id,
+                                        chef_id=chef_id, **old_data)
+        except Exception as e:
+            print(e)
+            return {"message": "Could not get all events"}
