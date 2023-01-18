@@ -18,6 +18,16 @@ function NavBar() {
               Add An Event
             </NavLink>
           </li>
+          <li className="nav-item">
+            <NavLink className="nav-link" aria-current="page" to="login">
+              Login
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink className="nav-link" aria-current="page" to="signup">
+              Sign Up
+            </NavLink>
+          </li>
         </ul>
       </div>
     </nav>

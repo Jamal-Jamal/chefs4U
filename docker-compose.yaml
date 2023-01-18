@@ -16,8 +16,6 @@ services:
       DATABASE_URL: postgresql://accounts:password@postgres/accounts
       SIGNING_KEY: 87fe4a3fcfb60092dbaeb854a196bc3d9b190aed7930c734749e85245de698420c25f8e6899c421b4494e99459e01058de5daa9d49584cd62ec975da9aea33da
       WAIT_HOSTS: postgres:5432
-      WAIT_BEFORE: 5
-      WAIT_TIMEOUT: 60
 
   events:
     build:
@@ -47,7 +45,7 @@ services:
       NODE_ENV: development
       HOST: "0.0.0.0"
       PUBLIC_URL: http://localhost:3000
-      REACT_APP_ACCOUNTS_API_HOST: http://localhost:8000
+      REACT_APP_ACCOUNT_SERVICE: http://localhost:8000
       REACT_APP_EVENTS_API_HOST: http://localhost:8001
 
   postgres:

@@ -11,7 +11,6 @@ class EventIn(BaseModel):
     time: time
     address: Optional[str]
     picture_url: Optional[str]
-    chef_id: int
 
 
 class EventOut(BaseModel):
@@ -26,8 +25,12 @@ class EventOut(BaseModel):
     users_favorited: Optional[list[int]]
 
 
+class FavoriteEventIn(BaseModel):
+    event_id: int
+
+
 class EventRepository:
-    def create(self, event: EventIn) -> EventOut:
+    def create(self, event: EventIn, user_id: int) -> EventOut:
         with pool.connection() as connection:
             with connection.cursor() as db:
                 result = db.execute(
@@ -46,12 +49,12 @@ class EventRepository:
                         event.time,
                         event.address,
                         event.picture_url,
-                        event.chef_id,
+                        user_id
                     ],
                 )
                 id = result.fetchone()[0]
                 old_data = event.dict()
-                return EventOut(id=id, **old_data)
+                return EventOut(id=id, chef_id=user_id, **old_data)
 
     def get_all(self) -> List[EventOut]:
         # connect the database
@@ -82,3 +85,63 @@ class EventRepository:
                     )
                     result.append(event)
                 return result
+
+    def favorite(self, event: FavoriteEventIn, user_id: int):
+        with pool.connection() as connection:
+            with connection.cursor() as db:
+                result = db.execute(
+                    """
+                    SELECT users_favorited
+                    FROM events
+                    WHERE id = %s;
+                    """,
+                    [event.event_id]
+                )
+                for row in result:
+                    user_fav = row[0]
+                    if user_fav is None or user_id not in user_fav:
+                        result = db.execute(
+                            """
+                            UPDATE events
+                            SET users_favorited
+                                = array_append(users_favorited, %s)
+                            WHERE id = %s;
+                            """,
+                            [user_id, event.event_id]
+                        )
+                    else:
+                        result = db.execute(
+                            """
+                            UPDATE events
+                            SET users_favorited
+                                = array_remove(users_favorited, %s)
+                            WHERE id = %s;
+                            """,
+                            [user_id, event.event_id]
+                        )
+                    return True
+                return False
+
+    def delete(self, event_id: int, chef_id: int) -> bool:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                result = db.execute(
+                    """
+                    SELECT chef_id
+                    FROM events
+                    WHERE id=%s;
+                    """,
+                    [event_id]
+                )
+                for row in result:
+                    if chef_id == row[0]:
+                        db.execute(
+                            """
+                            DELETE FROM events
+                            WHERE id = %s;
+                            """,
+                            [event_id]
+                        )
+                        return True
+                    else:
+                        return False
