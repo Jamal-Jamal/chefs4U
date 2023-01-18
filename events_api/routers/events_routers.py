@@ -1,5 +1,6 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from typing import List
+from authenticator import authenticator
 from queries.events_queries import (
     EventIn,
     EventRepository,
@@ -13,9 +14,14 @@ router = APIRouter()
 @router.post("/events", response_model=EventOut)
 def create_event(
     event: EventIn,
+    account_data: dict = Depends(authenticator.get_current_account_data),
     repo: EventRepository = Depends(),
 ) -> EventOut:
-    return repo.create(event)
+    print(account_data)
+    if account_data["is_chef"]:
+        return repo.create(event)
+    else:
+        raise HTTPException(status_code=401, detail="Invalid Token")
 
 
 @router.get("/events", response_model=List[EventOut])

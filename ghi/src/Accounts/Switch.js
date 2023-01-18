@@ -1,23 +1,23 @@
-import React from 'react';
-import './Switch.css';
+// import React from "react";
+// import "./Switch.css";
 
-const Switch = () => {
-    return (
-        <>
-            <input
-                className='react-switch-checkbox'
-                id={`react-switch-new`}
-                type="checkbox"
-            />
-            <label
-                style='#06D6A0'
-                className='react-switch-label'
-                htmlFor={`react-switch-new`}
-            >
-                <span className={`react-switch-button`} />
-            </label>
-        </>
-    );
-};
+// const Switch = () => {
+//   return (
+//     <>
+//       <input
+//         className="react-switch-checkbox"
+//         id={`react-switch-new`}
+//         type="checkbox"
+//       />
+//       <label
+//         style="#06D6A0"
+//         className="react-switch-label"
+//         htmlFor={`react-switch-new`}
+//       >
+//         <span className={`react-switch-button`} />
+//       </label>
+//     </>
+//   );
+// };
 
-export default Switch;
+// export default Switch;
