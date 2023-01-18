@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
-from typing import List
+from pydantic import BaseModel
+from typing import List, Union
 from authenticator import authenticator
 from queries.events_queries import (
     EventIn,
@@ -10,6 +11,10 @@ from queries.events_queries import (
 
 
 router = APIRouter()
+
+
+class Error(BaseModel):
+    message: str
 
 
 @router.post("/api/events", response_model=EventOut)
@@ -30,6 +35,17 @@ def get_all(
     repo: EventRepository = Depends(),
 ):
     return repo.get_all()
+
+
+@router.put("/events/{event_id}", response_model=Union[Error, EventOut])
+def update_event(
+    event_id: int,
+    event: EventIn,
+    account_data: dict = Depends(authenticator.get_current_account_data),
+    repo: EventRepository = Depends(),
+) -> Union[Error, EventOut]:
+    chef_id = account_data["id"]
+    return repo.update(event_id, event, chef_id)
 
 
 @router.delete("/api/events/{event_id}", response_model=bool)
