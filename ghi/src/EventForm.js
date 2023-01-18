@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 function BootstrapInput(props) {
   const { id, labelText, value, onChange, type } = props;
@@ -28,15 +28,6 @@ function EventForm(props) {
   const [time, setTime] = useState("");
   const [address, setAddress] = useState("");
   const [pictureUrl, setPictureUrl] = useState("");
-
-  useEffect(() => {
-    async function getLogin() {
-      const response = await fetch(
-        "http://localhost:8000/token"
-      )
-    }
-    getLogin();
-  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
