@@ -83,20 +83,28 @@ class EventRepository:
                     result.append(event)
                 return result
 
-    def delete(self, event_id: int) -> bool:
-        try:
-            # connect the database
-            with pool.connection() as conn:
-                # get a cursor (something to run SQL with)
-                with conn.cursor() as db:
-                    db.execute(
-                        """
-                        DELETE FROM events
-                        WHERE id = %s
-                        """,
-                        [event_id]
-                    )
-                    return True
-        except Exception as e:
-            print(e)
-            return False
+    def delete(self, event_id: int, chef_id: int) -> bool:
+        # connect the database
+        with pool.connection() as conn:
+            # get a cursor (something to run SQL with)
+            with conn.cursor() as db:
+                result = db.execute(
+                    """
+                    SELECT chef_id
+                    FROM events
+                    WHERE id=%s;
+                    """,
+                    [event_id]
+                )
+                for row in result:
+                    if chef_id == row[0]:
+                        db.execute(
+                            """
+                            DELETE FROM events
+                            WHERE id = %s;
+                            """,
+                            [event_id]
+                        )
+                        return True
+                    else:
+                        return False

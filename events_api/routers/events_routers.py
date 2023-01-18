@@ -17,7 +17,6 @@ def create_event(
     account_data: dict = Depends(authenticator.get_current_account_data),
     repo: EventRepository = Depends(),
 ) -> EventOut:
-    print(account_data)
     if account_data["is_chef"]:
         return repo.create(event)
     else:
@@ -34,6 +33,14 @@ def get_all(
 @router.delete("/events/{event_id}", response_model=bool)
 def delete_event(
     event_id: int,
+    account_data: dict = Depends(authenticator.get_current_account_data),
     repo: EventRepository = Depends(),
 ) -> bool:
-    return repo.delete(event_id)
+    chef_id = account_data["id"]
+    response = repo.delete(event_id, chef_id)
+    if response:
+        return True
+    elif response is None:
+        raise HTTPException(status_code=404, detail="Item Doesnt Exist")
+    else:
+        raise HTTPException(status_code=403, detail="Unathorized User")
