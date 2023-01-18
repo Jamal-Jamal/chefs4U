@@ -26,6 +26,10 @@ class EventOut(BaseModel):
     users_favorited: Optional[list[int]]
 
 
+class FavoriteEventIn(BaseModel):
+    event_id: int
+
+
 class EventRepository:
     def create(self, event: EventIn) -> EventOut:
         with pool.connection() as connection:
@@ -82,3 +86,39 @@ class EventRepository:
                     )
                     result.append(event)
                 return result
+
+    def favorite(self, event: FavoriteEventIn, user_id: int):
+        with pool.connection() as connection:
+            with connection.cursor() as db:
+                result = db.execute(
+                    """
+                    SELECT users_favorited
+                    FROM events
+                    WHERE id = %s;
+                    """,
+                    [event.event_id]
+                )
+                for row in result:
+                    user_fav = row[0]
+                    if user_fav is None or user_id not in user_fav:
+                        result = db.execute(
+                            """
+                            UPDATE events
+                            SET users_favorited
+                                = array_append(users_favorited, %s)
+                            WHERE id = %s;
+                            """,
+                            [user_id, event.event_id]
+                        )
+                    else:
+                        result = db.execute(
+                            """
+                            UPDATE events
+                            SET users_favorited
+                                = array_remove(users_favorited, %s)
+                            WHERE id = %s;
+                            """,
+                            [user_id, event.event_id]
+                        )
+                    return True
+                return False

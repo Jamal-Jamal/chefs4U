@@ -149,13 +149,13 @@ class AccountRepository:
                 )
                 for row in result:
                     event_list = row[0]
-                    if event.event_id in event_list:
+                    if event_list is None or event.event_id not in event_list:
                         result = db.execute(
                             """
                             UPDATE accounts
                             SET events_favorited
-                                = array_remove(events_favorited, %s)
-                            where id = %s;
+                                = array_append(events_favorited, %s)
+                            WHERE id = %s;
                             """,
                             [event.event_id, user_id]
                         )
@@ -164,7 +164,7 @@ class AccountRepository:
                             """
                             UPDATE accounts
                             SET events_favorited
-                                = array_append(events_favorited, %s)
+                                = array_remove(events_favorited, %s)
                             WHERE id = %s;
                             """,
                             [event.event_id, user_id]
