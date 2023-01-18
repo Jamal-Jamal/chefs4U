@@ -11,7 +11,6 @@ class EventIn(BaseModel):
     time: time
     address: Optional[str]
     picture_url: Optional[str]
-    chef_id: int
 
 
 class EventOut(BaseModel):
@@ -31,7 +30,7 @@ class FavoriteEventIn(BaseModel):
 
 
 class EventRepository:
-    def create(self, event: EventIn) -> EventOut:
+    def create(self, event: EventIn, user_id: int) -> EventOut:
         with pool.connection() as connection:
             with connection.cursor() as db:
                 result = db.execute(
@@ -50,12 +49,12 @@ class EventRepository:
                         event.time,
                         event.address,
                         event.picture_url,
-                        event.chef_id,
+                        user_id
                     ],
                 )
                 id = result.fetchone()[0]
                 old_data = event.dict()
-                return EventOut(id=id, **old_data)
+                return EventOut(id=id, chef_id=user_id, **old_data)
 
     def get_all(self) -> List[EventOut]:
         # connect the database

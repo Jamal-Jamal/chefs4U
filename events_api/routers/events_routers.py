@@ -18,8 +18,9 @@ def create_event(
     account_data: dict = Depends(authenticator.get_current_account_data),
     repo: EventRepository = Depends(),
 ) -> EventOut:
+    user_id = account_data["id"]
     if account_data["is_chef"]:
-        return repo.create(event)
+        return repo.create(event, user_id)
     else:
         raise HTTPException(status_code=401, detail="Invalid Token")
 
