@@ -43,4 +43,4 @@ def delete_event(
     elif response is None:
         raise HTTPException(status_code=404, detail="Item Doesnt Exist")
     else:
-        raise HTTPException(status_code=403, detail="Unathorized User")
+        raise HTTPException(status_code=401, detail="Invalid Token")
