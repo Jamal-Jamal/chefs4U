@@ -122,3 +122,27 @@ class EventRepository:
                         )
                     return True
                 return False
+
+    def delete(self, event_id: int, chef_id: int) -> bool:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                result = db.execute(
+                    """
+                    SELECT chef_id
+                    FROM events
+                    WHERE id=%s;
+                    """,
+                    [event_id]
+                )
+                for row in result:
+                    if chef_id == row[0]:
+                        db.execute(
+                            """
+                            DELETE FROM events
+                            WHERE id = %s;
+                            """,
+                            [event_id]
+                        )
+                        return True
+                    else:
+                        return False
