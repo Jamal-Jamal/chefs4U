@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import { useToken } from './Authentication';
+import { useToken } from "./Authentication";
 
 class Data {
   constructor(
@@ -26,8 +26,8 @@ class Data {
 
 function SignUpForm(props) {
   const [token, login, logout] = useToken();
-  console.log(token)
-  console.log(logout)
+  console.log(token);
+  console.log(logout);
   //line 29-30 is to pass the pipeline
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -37,6 +37,12 @@ function SignUpForm(props) {
   const [cuisine, setCuisine] = useState("");
   const [yearsOfExperience, setYearsOfExperience] = useState("");
   const [pictureUrl, setPictureUrl] = useState("");
+
+  useEffect(() => {
+    if (token) {
+      window.location.href = "/MainPage";
+    }
+  }, [token]);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -73,8 +79,7 @@ function SignUpForm(props) {
       }
       const jsonResponse = await response.json();
       console.log(jsonResponse);
-      login(username, password)
-      window.location.href = "/MainPage";
+      login(username, password);
     } catch (error) {
       console.log(error);
       alert("There was an error. Please try again later.");

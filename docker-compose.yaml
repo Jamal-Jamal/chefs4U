@@ -1,8 +1,8 @@
 volumes:
-    postgres-data:
-        external: true
-    pg-admin:
-        external: true
+  postgres-data:
+    external: true
+  pg-admin:
+    external: true
 services:
   accounts:
     build:
@@ -31,7 +31,6 @@ services:
       WAIT_HOSTS: postgres:5432
       WAIT_BEFORE: 5
       WAIT_TIMEOUT: 60
-
 
   ghi:
     image: node:lts-bullseye
