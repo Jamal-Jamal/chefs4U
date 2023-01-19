@@ -91,3 +91,14 @@ def favorite_event(
             status_code=401,
             detail="Invalid token"
         )
+
+
+@router.get("/api/events/favorite")
+def favorite_list(
+    account_data: dict = Depends(authenticator.get_current_account_data),
+    repo: EventRepository = Depends(),
+):
+    user_id = account_data["id"]
+    if account_data:
+        result = repo.get_user_favorites(user_id)
+        return result
