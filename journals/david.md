@@ -60,3 +60,19 @@ Today, I worked on:
 - Backend authentication for the events microservice
 - Backend error handling for the post endpoint in the events microservice
 - The delete endpoint within the events microservice
+
+## Jan 18, 2023
+
+Today, I worked on:
+
+- Completed events form in the front end
+- Merged delete endpoints into main
+- Worked on groups migrations
+
+## Jan 19, 2023
+
+Today, I worked on:
+
+- Worked on group migrations
+- Merged my events form into main
+- Started working on chef details page in the front end
