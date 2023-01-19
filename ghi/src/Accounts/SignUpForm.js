@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
-// import { Navigate} from 'react-router-dom';
-// import { useToken } from './Authentication';
-// import Switch from './Switch';
+import { useToken } from "./Authentication";
 
 class Data {
   constructor(
@@ -27,7 +25,10 @@ class Data {
 }
 
 function SignUpForm(props) {
-  // const [token, login, logout, signup] = useToken();
+  const [token, login, logout] = useToken();
+  console.log(token);
+  console.log(logout);
+  //line 29-30 is to pass the pipeline
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -36,6 +37,12 @@ function SignUpForm(props) {
   const [cuisine, setCuisine] = useState("");
   const [yearsOfExperience, setYearsOfExperience] = useState("");
   const [pictureUrl, setPictureUrl] = useState("");
+
+  useEffect(() => {
+    if (token) {
+      window.location.href = "/MainPage";
+    }
+  }, [token]);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -61,7 +68,7 @@ function SignUpForm(props) {
       d.picture_url = data.pictureUrl;
     }
     try {
-      const url = `http://localhost:8000/api/accounts`;
+      const url = `${process.env.REACT_APP_ACCOUNTS_HOST}/api/accounts`;
       const response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -72,8 +79,7 @@ function SignUpForm(props) {
       }
       const jsonResponse = await response.json();
       console.log(jsonResponse);
-
-      window.location.href = "/MainPage";
+      login(username, password);
     } catch (error) {
       console.log(error);
       alert("There was an error. Please try again later.");

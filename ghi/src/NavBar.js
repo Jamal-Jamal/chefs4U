@@ -13,6 +13,11 @@ function NavBar() {
               Events
             </NavLink>
           </li>
+          <li className="nav-item">
+            <NavLink className="nav-link" aria-current="page" to="events/favorites">
+              Favorite Events
+            </NavLink>
+          </li>
           <li>
             <NavLink className="nav-link" aria-current="page" to="add-event">
               Add An Event
