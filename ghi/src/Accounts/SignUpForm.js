@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
-// import { Navigate} from 'react-router-dom';
-// import { useToken } from './Authentication';
-// import Switch from './Switch';
+import { useToken } from './Authentication';
 
 class Data {
   constructor(
@@ -27,7 +25,10 @@ class Data {
 }
 
 function SignUpForm(props) {
-  // const [token, login, logout, signup] = useToken();
+  const [token, login, logout] = useToken();
+  console.log(token)
+  console.log(logout)
+  //line 29-30 is to pass the pipeline
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -61,7 +62,7 @@ function SignUpForm(props) {
       d.picture_url = data.pictureUrl;
     }
     try {
-      const url = `http://localhost:8000/api/accounts`;
+      const url = `${process.env.REACT_APP_ACCOUNTS_HOST}/api/accounts`;
       const response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -72,7 +73,7 @@ function SignUpForm(props) {
       }
       const jsonResponse = await response.json();
       console.log(jsonResponse);
-
+      login(username, password)
       window.location.href = "/MainPage";
     } catch (error) {
       console.log(error);

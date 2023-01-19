@@ -3,6 +3,7 @@ import { BrowserRouter, Routes ,Route } from 'react-router-dom';
 import './App.css';
 import NavBar from "./NavBar";
 import EventList from "./EventList";
+import FavoritesList from './FavoritesList';
 import SignUpForm from "./Accounts/SignUpForm";
 import LoginForm from "./Accounts/LoginForm";
 import { AuthProvider, useToken } from './Accounts/Authentication.js';
@@ -27,6 +28,7 @@ function App() {
                         <Route path="/signup" element={<SignUpForm/>}>
                         </Route>
                         <Route path="/events" element={<EventList />}></Route>
+                        <Route path="/events/favorites" element={<FavoritesList />}></Route>
                     </Routes>
             </AuthProvider>
             </BrowserRouter>

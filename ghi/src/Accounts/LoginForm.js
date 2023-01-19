@@ -7,16 +7,17 @@ import { useToken } from "./Authentication.js";
 function LoginForm() {
   const navigate = useNavigate();
   const [token, login] = useToken();
+  console.log(token)
+  //remove line 10 after 
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = async (e) => {
-    login(username, password);
-    console.log(token);
-    e.preventDefault();
-    navigate("/MainPage");
-  };
+    const handleSubmit = async (e) => {
+      login(username, password);
+      e.preventDefault();
+      navigate("/events");
+    };
 
   function handleClick() {
     navigate("/signup");
