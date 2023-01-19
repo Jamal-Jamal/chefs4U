@@ -38,12 +38,13 @@ function EventForm(props) {
       time: time,
       address: address,
       picture_url: pictureUrl,
-      chef_id: 1,
     };
-    const serviceUrl = `${process.env.REACT_APP_EVENTS_API_HOST}/events`;
+
+    const serviceUrl = `${process.env.REACT_APP_EVENTS_API_HOST}/api/events`;
     const fetchConfig = {
       method: "post",
       body: JSON.stringify(data),
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },

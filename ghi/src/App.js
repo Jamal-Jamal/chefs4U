@@ -6,12 +6,13 @@ import EventList from "./EventList";
 import SignUpForm from "./Accounts/SignUpForm";
 import LoginForm from "./Accounts/LoginForm";
 import { AuthProvider, useToken } from "./Accounts/Authentication.js";
+import EventForm from "./EventForm";
+
 
 function GetToken() {
   useToken();
   return null;
 }
-import EventForm from "./EventForm";
 
 function App() {
   return (
