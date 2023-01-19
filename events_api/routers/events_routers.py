@@ -37,7 +37,7 @@ def get_all(
     return repo.get_all()
 
 
-@router.put("/events/{event_id}", response_model=Union[Error, EventOut])
+@router.put("/api/events/{event_id}", response_model=Union[Error, EventOut])
 def update_event(
     event_id: int,
     event: EventIn,
@@ -102,3 +102,11 @@ def favorite_list(
     if account_data:
         result = repo.get_user_favorites(user_id)
         return result
+
+
+@router.get("/api/events/{id}", response_model=Union[Error, EventOut])
+def get_event(
+    id: int,
+    repo: EventRepository = Depends(),
+) -> Union[Error, EventOut]:
+    return repo.get_detail(id)
