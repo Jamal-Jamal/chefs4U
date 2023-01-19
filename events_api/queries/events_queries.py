@@ -34,7 +34,6 @@ class FavoriteEventIn(BaseModel):
 
 
 class EventRepository:
-
     def create(self, event: EventIn, user_id: int) -> EventOut:
         with pool.connection() as connection:
             with connection.cursor() as db:
