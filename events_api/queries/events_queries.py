@@ -222,3 +222,32 @@ class EventRepository:
         except Exception as e:
             print(e)
             return {"message": "Could not get all events"}
+
+    def get_detail(self, event_id: int) -> Union[Error, EventOut]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    result = db.execute(
+                        """
+                        SELECT *
+                        FROM events
+                        WHERE id = %s;
+                        """,
+                        [event_id]
+                    )
+                    event = result.fetchone()
+                    event_out = EventOut(
+                        id=event[0],
+                        venue=event[1],
+                        description=event[2],
+                        date=event[3],
+                        time=event[4],
+                        address=event[5],
+                        picture_url=event[6],
+                        chef_id=event[7],
+                        users_favorited=event[8],
+                    )
+                    return event_out
+        except Exception as e:
+            print(e)
+            return {"message": "No such event exist"}
