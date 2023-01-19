@@ -40,7 +40,7 @@ function EventForm(props) {
       picture_url: pictureUrl,
     };
 
-    const serviceUrl = `${process.env.REACT_APP_EVENTS_API_HOST}/api/events`;
+    const serviceUrl = `${process.env.REACT_APP_EVENTS_HOST}/api/events`;
     const fetchConfig = {
       method: "post",
       body: JSON.stringify(data),
