@@ -13,13 +13,16 @@ class Error(BaseModel):
 
 class AccountIn(BaseModel):
     username: str
-    password: str
     name: str
     is_chef: bool
     pay_rate: Optional[str]
     cuisine: Optional[str]
     years_of_experience: Optional[int]
     picture_url: Optional[str]
+
+
+class AccountInWithPassword(AccountIn):
+    password: str
 
 
 class AccountOut(BaseModel):
@@ -45,7 +48,7 @@ class FavoriteIn(BaseModel):
 class AccountRepository:
     def create(
         self,
-        account: AccountIn,
+        account: AccountInWithPassword,
         hashed_password: str
     ) -> AccountOutWithPassword:
         with pool.connection() as connection:
@@ -102,6 +105,35 @@ class AccountRepository:
                 picture_url=row[7],
                 password=row[8]
             )
+
+    def update(self, form_data: AccountIn, user_id: int) -> AccountOut:
+        with pool.connection() as connection:
+            with connection.cursor() as db:
+                db.execute(
+                    """
+                    UPDATE accounts
+                    SET username = %s,
+                        name = %s,
+                        is_chef = %s,
+                        pay_rate = %s,
+                        cuisine = %s,
+                        years_of_experience = %s,
+                        picture_url = %s
+                    WHERE id = %s;
+                    """,
+                    [
+                        form_data.username,
+                        form_data.name,
+                        form_data.is_chef,
+                        form_data.pay_rate,
+                        form_data.cuisine,
+                        form_data.years_of_experience,
+                        form_data.picture_url,
+                        user_id
+                    ]
+                )
+                old_data = form_data.dict()
+                return AccountOut(id=user_id, **old_data)
 
     def get_all(self) -> Union[Error, List[AccountOut]]:
         try:

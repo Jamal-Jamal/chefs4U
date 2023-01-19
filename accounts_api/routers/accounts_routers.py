@@ -12,6 +12,7 @@ from pydantic import BaseModel
 from typing import List, Union
 from queries.accounts_queries import (
     AccountIn,
+    AccountInWithPassword,
     AccountOut,
     FavoriteIn,
     AccountRepository,
@@ -41,7 +42,7 @@ router = APIRouter()
 
 @router.post("/api/accounts", response_model=AccountToken | HttpError)
 async def create_account(
-    info: AccountIn,
+    info: AccountInWithPassword,
     request: Request,
     response: Response,
     accounts: AccountRepository = Depends(),
@@ -70,6 +71,18 @@ async def get_token(
             "type": "Bearer",
             "account": account,
         }
+
+
+@router.put("/api/accounts")
+async def update_account(
+    form_data: AccountIn,
+    user_data: AccountOut = Depends(authenticator.get_current_account_data),
+    accounts: AccountRepository = Depends(),
+) -> AccountOut | HttpError:
+    user_id = user_data["id"]
+    if user_data:
+        account = accounts.update(form_data, user_id)
+        return account
 
 
 @router.get("/accounts", response_model=Union[Error, List[AccountOut]])
