@@ -151,6 +151,32 @@ class EventRepository:
                     else:
                         return False
 
+    def get_user_favorites(self, user_id: int):
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                result = db.execute(
+                    """
+                    SELECT *
+                    FROM events
+                    """
+                )
+                fav_list = []
+                for row in result:
+                    if row[8] and user_id in row[8]:
+                        event = EventOut(
+                            id=row[0],
+                            venue=row[1],
+                            description=row[2],
+                            date=row[3],
+                            time=row[4],
+                            address=row[5],
+                            picture_url=row[6],
+                            chef_id=row[7],
+                            users_favorited=row[8]
+                        )
+                        fav_list.append(event)
+                return fav_list
+
     def update(self, event_id: int,
                event: EventIn,
                chef_id: int) -> Union[EventOut, Error]:
