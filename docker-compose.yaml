@@ -46,7 +46,8 @@ services:
       NODE_ENV: development
       HOST: "0.0.0.0"
       PUBLIC_URL: http://localhost:3000
-      REACT_APP_ACCOUNT_SERVICE: http://localhost:8000
+      REACT_APP_ACCOUNTS_HOST: http://localhost:8000
+      REACT_APP_EVENTS_HOST: http://localhost:8001
 
   postgres:
     build:

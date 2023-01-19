@@ -31,7 +31,7 @@ function EventList() {
   const [eventColumns, setEventList] = useState([], [], []);
 
   useEffect(() => {
-    const url = "http://localhost:8001/events";
+    const url = `${process.env.REACT_APP_EVENTS_HOST}/api/events`;
     async function fetchData() {
       const response = await fetch(url);
       if (response.ok) {

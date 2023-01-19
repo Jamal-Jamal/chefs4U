@@ -8,7 +8,7 @@ export function getToken() {
 }
 
 export async function getTokenInternal() {
-  const url = `${process.env.REACT_APP_ACCOUNT_SERVICE}/token`;
+  const url = `${process.env.REACT_APP_ACCOUNTS_HOST}/token`;
   try {
     const response = await fetch(url, {
       credentials: "include",
@@ -76,7 +76,7 @@ export function useToken() {
 
   async function logout() {
     if (token) {
-      const url = `${process.env.REACT_APP_ACCOUNT_SERVICE}/token`;
+      const url = `${process.env.REACT_APP_ACCOUNTS_HOST}/token`;
       await fetch(url, { method: "delete", credentials: "include" });
       internalToken = null;
       setToken(null);
@@ -85,8 +85,7 @@ export function useToken() {
   }
 
   async function login(username, password) {
-
-    const url = `http://localhost:8000/token`;
+    const url = `${process.env.REACT_APP_ACCOUNTS_HOST}/token`;
     const form = new FormData();
     form.append("username", username);
     form.append("password", password);
@@ -103,30 +102,7 @@ export function useToken() {
       let error = await response.json();
       return handleErrorMessage(error);
     }
-}
-
-  async function signup(username, password) {
-    const url = `http://localhost:8000/api/accounts`;
-    const response = await fetch(url, {
-      method: "post",
-      body: JSON.stringify({
-        username,
-        password,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (response.ok) {
-      await login(username, password);
-    }
-    return false;
   }
 
-
-
-
-  return [token, login, logout, signup, ];
-
+  return [token, login, logout];
 }
