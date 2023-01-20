@@ -4,7 +4,7 @@ function FavoritesList() {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_EVENTS_HOST}/api/events/favorite`, {
+    fetch(`${process.env.REACT_APP_EVENTS_HOST}/api/favorite`, {
       credentials: "include",
     })
       .then((response) => response.json())
@@ -14,7 +14,6 @@ function FavoritesList() {
         alert("You don't have any favorite events. Please favorite.");
         window.location.href = "/MainPage";
       });
-
   }, []);
   return (
     <div className="container">

@@ -65,11 +65,8 @@ class EventRepository:
                 return EventOut(id=id, chef_id=user_id, **old_data)
 
     def get_all(self) -> List[EventOut]:
-        # connect the database
         with pool.connection() as conn:
-            # get a cursor (something to run SQL with)
             with conn.cursor() as db:
-                # Run our SELECT statement
                 result = db.execute(
                     """
                     SELECT id, venue, description, date,
@@ -145,16 +142,16 @@ class EventRepository:
                 )
                 for row in result:
                     if chef_id == row[0]:
-                        db.execute(
+                        result = db.execute(
                             """
                             DELETE FROM events
                             WHERE id = %s;
                             """,
                             [event_id]
                         )
-                        return True
+                        return 1
                     else:
-                        return False
+                        return 2
 
     def get_user_favorites(self, user_id: int):
         with pool.connection() as conn:
@@ -186,9 +183,7 @@ class EventRepository:
                event: EventIn,
                chef_id: int) -> Union[EventOut, Error]:
         try:
-            # connect the database
             with pool.connection() as conn:
-                # get cursor (something to run SQL with)
                 with conn.cursor() as db:
                     result = db.execute(
                         """
@@ -199,7 +194,6 @@ class EventRepository:
                         [event_id]
                     )
                     for row in result:
-                        print(row[0])
                         if chef_id == row[0]:
                             db.execute(
                                 """

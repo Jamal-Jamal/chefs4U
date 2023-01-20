@@ -74,7 +74,7 @@ async def get_token(
         }
 
 
-@router.put("/api/accounts")
+@router.put("/api/accounts", response_model=AccountOut | HttpError)
 async def update_account(
     form_data: AccountIn,
     user_data: AccountOut = Depends(authenticator.get_current_account_data),
@@ -86,14 +86,14 @@ async def update_account(
         return account
 
 
-@router.get("/api/accounts", response_model=Union[Error, List[AccountOut]])
+@router.get("/api/accounts", response_model=List[AccountOut])
 def get_all(
     repo: AccountRepository = Depends(),
-):
+) -> List[AccountOut]:
     return repo.get_all()
 
 
-@router.put("/api/favorite")
+@router.put("/api/favorite", response_model=FavoriteListOut | HttpError)
 def favorite_event(
     event: FavoriteIn,
     account_data: dict = Depends(authenticator.get_current_account_data),
@@ -103,7 +103,7 @@ def favorite_event(
     return accounts.favorite(event, user_id)
 
 
-@router.get("/api/chef/{id}", response_model=Union[Error, AccountOut])
+@router.get("/api/chef/{id}", response_model=AccountOut)
 def get_chef(
     id: int,
     repo: AccountRepository = Depends(),
