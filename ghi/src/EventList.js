@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 function EventColumn(props) {
   return (
@@ -29,6 +30,7 @@ function EventColumn(props) {
 
 function EventList() {
   const [eventColumns, setEventList] = useState([], [], []);
+  const { id } = useParams();
 
   useEffect(() => {
     const url = `${process.env.REACT_APP_EVENTS_HOST}/api/events`;
@@ -39,17 +41,19 @@ function EventList() {
         const eventColumns = [[], [], []];
         let i = 0;
         for (const event of data) {
-          eventColumns[i].push(event);
-          i = i + 1;
-          if (i > 2) {
-            i = 0;
+          if (event.chef_id === Number(id)) {
+            eventColumns[i].push(event);
+            i = i + 1;
+            if (i > 2) {
+              i = 0;
+            }
           }
         }
         setEventList(eventColumns);
       }
     }
     fetchData();
-  }, []);
+  }, [id]);
 
   return (
     <div className="container">
