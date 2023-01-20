@@ -9,8 +9,8 @@ function NavBar() {
         </NavLink>
         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
           <li className="nav-item">
-            <NavLink className="nav-link" aria-current="page" to="events">
-              Events
+            <NavLink className="nav-link" aria-current="page" to="chef/:id">
+              Chefs Profile
             </NavLink>
           </li>
           <li>
@@ -19,12 +19,20 @@ function NavBar() {
             </NavLink>
           </li>
           <li>
-            <NavLink className="nav-link" aria-current="page" to="events/:id/edit">
+            <NavLink
+              className="nav-link"
+              aria-current="page"
+              to="events/:id/edit"
+            >
               Edit Event
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink className="nav-link" aria-current="page" to="events/favorites">
+            <NavLink
+              className="nav-link"
+              aria-current="page"
+              to="events/favorites"
+            >
               Favorite Events
             </NavLink>
           </li>
