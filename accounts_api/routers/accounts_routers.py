@@ -17,6 +17,7 @@ from queries.accounts_queries import (
     FavoriteIn,
     AccountRepository,
     DuplicateAccountError,
+    FavoriteListOut,
 )
 
 
@@ -97,7 +98,7 @@ def favorite_event(
     event: FavoriteIn,
     account_data: dict = Depends(authenticator.get_current_account_data),
     accounts: AccountRepository = Depends(),
-):
+) -> FavoriteListOut:
     user_id = account_data["id"]
     return accounts.favorite(event, user_id)
 

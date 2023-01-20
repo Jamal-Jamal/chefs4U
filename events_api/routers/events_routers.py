@@ -7,6 +7,7 @@ from queries.events_queries import (
     EventRepository,
     EventOut,
     FavoriteEventIn,
+    FavoriteListOut,
 )
 
 
@@ -75,7 +76,7 @@ def favorite_event(
     event: FavoriteEventIn,
     account_data: dict = Depends(authenticator.get_current_account_data),
     repo: EventRepository = Depends(),
-):
+) -> FavoriteListOut:
     user_id = account_data["id"]
     if account_data:
         result = repo.favorite(event, user_id)
@@ -86,11 +87,6 @@ def favorite_event(
                 status_code=404,
                 detail="Event does not exist"
             )
-    else:
-        raise HTTPException(
-            status_code=401,
-            detail="Invalid token"
-        )
 
 
 @router.get("/api/favorite")

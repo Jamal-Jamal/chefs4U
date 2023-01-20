@@ -118,8 +118,6 @@ class EventRepository:
                             """,
                             [user_id, event.event_id]
                         )
-                        users = result.fetchone()[0]
-                        return FavoriteListOut(users_favorited=users)
                     else:
                         result = db.execute(
                             """
@@ -131,8 +129,8 @@ class EventRepository:
                             """,
                             [user_id, event.event_id]
                         )
-                        users = result.fetchone()[0]
-                        return FavoriteListOut(users_favorited=users)
+                    users = result.fetchone()[0]
+                    return FavoriteListOut(users_favorited=users)
 
     def delete(self, event_id: int, chef_id: int) -> bool:
         with pool.connection() as conn:

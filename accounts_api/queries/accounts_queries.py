@@ -45,6 +45,10 @@ class FavoriteIn(BaseModel):
     event_id: int
 
 
+class FavoriteListOut(BaseModel):
+    events_favorited: list[int]
+
+
 class AccountRepository:
     def create(
         self,
@@ -187,7 +191,8 @@ class AccountRepository:
                             UPDATE accounts
                             SET events_favorited
                                 = array_append(events_favorited, %s)
-                            WHERE id = %s;
+                            WHERE id = %s
+                            RETURNING accounts.events_favorited;
                             """,
                             [event.event_id, user_id]
                         )
@@ -197,11 +202,13 @@ class AccountRepository:
                             UPDATE accounts
                             SET events_favorited
                                 = array_remove(events_favorited, %s)
-                            WHERE id = %s;
+                            WHERE id = %s
+                            RETURNING accounts.events_favorited;
                             """,
                             [event.event_id, user_id]
                         )
-                    return True
+                    events = result.fetchone()[0]
+                    return FavoriteListOut(events_favorited=events)
 
     def get_detail(self, user_id: int) -> Union[Error, AccountOut]:
         try:
