@@ -202,3 +202,38 @@ class AccountRepository:
                             [event.event_id, user_id]
                         )
                     return True
+
+    def get_detail(self, user_id: int) -> Union[Error, AccountOut]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    result = db.execute(
+                        """
+                        SELECT id,
+                        username,
+                        name,
+                        is_chef,
+                        pay_rate,
+                        cuisine,
+                        years_of_experience,
+                        picture_url
+                        FROM accounts
+                        WHERE id = %s;
+                        """,
+                        [user_id]
+                    )
+                    chef = result.fetchone()
+                    Account = AccountOut(
+                        id=chef[0],
+                        username=chef[1],
+                        name=chef[2],
+                        is_chef=chef[3],
+                        pay_rate=chef[4],
+                        cuisine=chef[5],
+                        years_of_experience=chef[6],
+                        picture_url=chef[7],
+                    )
+                    return Account
+        except Exception as e:
+            print(e)
+            return {"message": "No such chef exist"}

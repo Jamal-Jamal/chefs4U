@@ -100,3 +100,11 @@ def favorite_event(
 ):
     user_id = account_data["id"]
     return accounts.favorite(event, user_id)
+
+
+@router.get("/api/chef/{id}", response_model=Union[Error, AccountOut])
+def get_chef(
+    id: int,
+    repo: AccountRepository = Depends(),
+) -> Union[Error, AccountOut]:
+    return repo.get_detail(id)
