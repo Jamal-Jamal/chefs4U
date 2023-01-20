@@ -85,14 +85,14 @@ async def update_account(
         return account
 
 
-@router.get("/accounts", response_model=Union[Error, List[AccountOut]])
+@router.get("/api/accounts", response_model=Union[Error, List[AccountOut]])
 def get_all(
     repo: AccountRepository = Depends(),
 ):
     return repo.get_all()
 
 
-@router.put("/api/accounts/favorite")
+@router.put("/api/favorite")
 def favorite_event(
     event: FavoriteIn,
     account_data: dict = Depends(authenticator.get_current_account_data),

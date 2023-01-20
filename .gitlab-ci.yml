@@ -113,8 +113,8 @@ build-front-end-job:
     # You need to substitute in your real values for
     # GROUP_NAME, PROJECT_NAME, & WEBSERVICE_NAME below.
     PUBLIC_URL: https://chefs4u.gitlab.io/chefs4u/
-    REACT_APP_ACCOUNTS_API_HOST: https://accounts.sept-pt-10.mod3projects.com
-    REACT_APP_EVENTS_API_HOST: https://events.sept-pt-10.mod3projects.com
+    REACT_APP_ACCOUNTS_HOST: https://accounts.sept-pt-10.mod3projects.com
+    REACT_APP_EVENTS_HOST: https://events.sept-pt-10.mod3projects.com
   script:
     - cd ghi
     - npm install

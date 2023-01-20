@@ -70,7 +70,7 @@ def delete_event(
         )
 
 
-@router.put("/api/events/favorite")
+@router.put("/api/favorite")
 def favorite_event(
     event: FavoriteEventIn,
     account_data: dict = Depends(authenticator.get_current_account_data),
@@ -93,7 +93,7 @@ def favorite_event(
         )
 
 
-@router.get("/api/events/favorite")
+@router.get("/api/favorite")
 def favorite_list(
     account_data: dict = Depends(authenticator.get_current_account_data),
     repo: EventRepository = Depends(),
@@ -104,9 +104,9 @@ def favorite_list(
         return result
 
 
-@router.get("/api/events/{id}", response_model=Union[Error, EventOut])
+@router.get("/api/events/{event_id}", response_model=Union[Error, EventOut])
 def get_event(
-    id: int,
+    event_id: int,
     repo: EventRepository = Depends(),
 ) -> Union[Error, EventOut]:
-    return repo.get_detail(id)
+    return repo.get_detail(event_id)

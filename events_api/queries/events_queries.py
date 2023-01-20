@@ -33,6 +33,10 @@ class FavoriteEventIn(BaseModel):
     event_id: int
 
 
+class FavoriteListOut(BaseModel):
+    users_favorited: list[int]
+
+
 class EventRepository:
     def create(self, event: EventIn, user_id: int) -> EventOut:
         with pool.connection() as connection:
@@ -109,22 +113,26 @@ class EventRepository:
                             UPDATE events
                             SET users_favorited
                                 = array_append(users_favorited, %s)
-                            WHERE id = %s;
+                            WHERE id = %s
+                            RETURNING events.users_favorited;
                             """,
                             [user_id, event.event_id]
                         )
+                        users = result.fetchone()[0]
+                        return FavoriteListOut(users_favorited=users)
                     else:
                         result = db.execute(
                             """
                             UPDATE events
                             SET users_favorited
                                 = array_remove(users_favorited, %s)
-                            WHERE id = %s;
+                            WHERE id = %s
+                            RETURNING events.users_favorited;
                             """,
                             [user_id, event.event_id]
                         )
-                    return True
-                return False
+                        users = result.fetchone()[0]
+                        return FavoriteListOut(users_favorited=users)
 
     def delete(self, event_id: int, chef_id: int) -> bool:
         with pool.connection() as conn:
