@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import "./EditEventForm.css"
 
 function BootstrapInput(props) {
   const { id, labelText, value, onChange, type } = props;
@@ -31,6 +32,8 @@ function EditEventForm() {
   const [address, setAddress] = useState("");
   const [pictureUrl, setPictureUrl] = useState("");
   const { id } = useParams();
+    const [submitted, setSubmitted] = useState("alert alert-danger d-none");
+
 
   useEffect(() => {
     async function fetchEvent() {
@@ -68,6 +71,28 @@ function EditEventForm() {
       },
     };
     fetch(serviceUrl, fetchConfig);
+  };
+
+
+  const handleDelete = (event) => {
+    event.preventDefault();
+    const serviceUrl = `${process.env.REACT_APP_EVENTS_HOST}/api/events/${id}`;
+    const fetchConfig = {
+      credentials: "include",
+      method: "delete",
+    };
+    fetch(serviceUrl, fetchConfig)
+    .then(response => {
+          if(response.ok){
+            setVenue("");
+            setDescription("");
+            setDate("");
+            setTime("");
+            setAddress("");
+            setPictureUrl("");
+            setSubmitted("alert alert-danger");
+      }
+    });
   };
 
   return (
@@ -125,8 +150,12 @@ function EditEventForm() {
               onChange={(e) => setPictureUrl(e.target.value)}
               value={pictureUrl}
             />
-            <button className="btn btn-primary">Update</button>
+            <button className="btn btn-primary me-2">Update</button>
+            <button className="Delete btn btn-danger float-none me-2" type="submit" onClick={handleDelete}>Delete</button>
           </form>
+          <div className={submitted} role="alert">
+            This Event has been deleted
+          </div>
         </div>
       </div>
     </div>
