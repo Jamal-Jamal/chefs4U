@@ -3,6 +3,18 @@ stages:
   - build
   - deploy
 
+# Uncomment this when unit tests are implemented
+# This sets up a test database for tests to run
+# services:
+#   - postgres:14.2-bullseye
+
+# variables:
+#   DATABASE_URL: postgresql://postgres:test@postgres:5432/postgres
+#   POSTGRES_DB: test_db
+#   POSTGRES_USER: test_user
+#   POSTGRES_PASSWORD: test_password
+#   POSTGRES_HOST_AUTH_METHOD: trust
+
 # Run flake8 to check for code quality
 lint-test-job:
   image: python:3-bullseye
@@ -12,30 +24,97 @@ lint-test-job:
     - flake8 events_api
     - flake8 accounts_api
 
+# Uncomment this when unit tests are implemented
 # Run the unit tests
-# api-unit-test-job:
+# accounts-unit-test-job:
 #   image: python:3-bullseye
 #   stage: test
 #   needs:
 #     - lint-test-job
 #   script:
-#     - cd sample_service
+#     - cd accounts_api
 #     - pip install -r requirements.txt
 #     - python -m pytest
+
+# events-unit-test-job:
+#   image: python:3-bullseye
+#   stage: test
+#   needs:
+#     - lint-test-job
+#   script:
+#     - cd events_api
+#     - pip install -r requirements.txt
+#     - python -m pytest
+
+build-accounts-backend:
+  image: docker:19.03.1
+  stage: build
+  services:
+    - docker:19.03.1-dind
+  before_script:
+    - export DOCKER_REGISTRY_USER=$CI_REGISTRY_USER # built-in GitLab Registry User
+    - export DOCKER_REGISTRY_PASSWORD=$CI_REGISTRY_PASSWORD # built-in GitLab Registry Password
+    - export DOCKER_REGISTRY_URL=$CI_REGISTRY # built-in GitLab Registry URL
+    - export COMMIT_HASH=$CI_COMMIT_SHA # Your current commit sha
+    - export IMAGE_NAME_WITH_REGISTRY_PREFIX=$CI_REGISTRY_IMAGE # Your repository prefixed with GitLab Registry URL
+    - docker login -u "$DOCKER_REGISTRY_USER" -p "$DOCKER_REGISTRY_PASSWORD" $DOCKER_REGISTRY_URL # Instructs GitLab to login to its registry
+
+  script:
+    - cd accounts_api
+    - echo "Building..." # MAKE SURE NO SPACE ON EITHER SIDE OF = IN THE FOLLOWING LINE
+    - export CONTAINER_FULL_IMAGE_NAME_WITH_TAG=$IMAGE_NAME_WITH_REGISTRY_PREFIX/accounts_api:$COMMIT_HASH
+    - docker build -f ./Dockerfile --pull -t accounts_api_img .
+    - docker tag accounts_api_img "$CONTAINER_FULL_IMAGE_NAME_WITH_TAG"
+    - docker push "$CONTAINER_FULL_IMAGE_NAME_WITH_TAG"
+    - echo $CONTAINER_FULL_IMAGE_NAME_WITH_TAG
+    - echo "Deploying on CapRover..."
+    - docker run caprover/cli-caprover:v2.1.1 caprover deploy --caproverUrl $CAPROVER_URL --caproverPassword $CAPROVER_PASSWORD --caproverApp $CAPROVER_APP_ONE --imageName $CONTAINER_FULL_IMAGE_NAME_WITH_TAG
+  only:
+    - main
+
+build-events-backend:
+  image: docker:19.03.1
+  stage: build
+  services:
+    - docker:19.03.1-dind
+  before_script:
+    - export DOCKER_REGISTRY_USER=$CI_REGISTRY_USER # built-in GitLab Registry User
+    - export DOCKER_REGISTRY_PASSWORD=$CI_REGISTRY_PASSWORD # built-in GitLab Registry Password
+    - export DOCKER_REGISTRY_URL=$CI_REGISTRY # built-in GitLab Registry URL
+    - export COMMIT_HASH=$CI_COMMIT_SHA # Your current commit sha
+    - export IMAGE_NAME_WITH_REGISTRY_PREFIX=$CI_REGISTRY_IMAGE # Your repository prefixed with GitLab Registry URL
+    - docker login -u "$DOCKER_REGISTRY_USER" -p "$DOCKER_REGISTRY_PASSWORD" $DOCKER_REGISTRY_URL # Instructs GitLab to login to its registry
+
+  script:
+    - cd accounts_api
+    - echo "Building..." # MAKE SURE NO SPACE ON EITHER SIDE OF = IN THE FOLLOWING LINE
+    - export CONTAINER_FULL_IMAGE_NAME_WITH_TAG=$IMAGE_NAME_WITH_REGISTRY_PREFIX/events_api:$COMMIT_HASH
+    - docker build -f ./Dockerfile --pull -t events_api_img .
+    - docker tag events_api_img "$CONTAINER_FULL_IMAGE_NAME_WITH_TAG"
+    - docker push "$CONTAINER_FULL_IMAGE_NAME_WITH_TAG"
+    - echo $CONTAINER_FULL_IMAGE_NAME_WITH_TAG
+    - echo "Deploying on CapRover..."
+    - docker run caprover/cli-caprover:v2.1.1 caprover deploy --caproverUrl $CAPROVER_URL --caproverPassword $CAPROVER_PASSWORD --caproverApp $CAPROVER_APP_TWO --imageName $CONTAINER_FULL_IMAGE_NAME_WITH_TAG
+  only:
+    - main
 
 # Build the React/JavaScript front-end
 build-front-end-job:
   stage: build
   image: node:lts-bullseye
   needs:
+    # Uncomment this when unit tests are implemented
+    # - accounts-unit-test-job
+    # - events-unit-test-job
     - lint-test-job
   variables:
     # If either of these variables is defined in the GitLab
     # CI/CD variables, that value will override the value here.
     # You need to substitute in your real values for
     # GROUP_NAME, PROJECT_NAME, & WEBSERVICE_NAME below.
-    PUBLIC_URL: https://GROUP_NAME.gitlab.io/PROJECT_NAME/
-    REACT_APP_SAMPLE_SERVICE_API_HOST: https://WEBSERVICE_NAME.onrender.com
+    PUBLIC_URL: https://chefs4u.gitlab.io/chefs4u/
+    REACT_APP_ACCOUNTS_API_HOST: https://accounts.sept-pt-10.mod3projects.com
+    REACT_APP_EVENTS_API_HOST: https://events.sept-pt-10.mod3projects.com
   script:
     - cd ghi
     - npm install

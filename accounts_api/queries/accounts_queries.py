@@ -95,16 +95,16 @@ class AccountRepository:
         if not result:
             return None
         return AccountOutWithPassword(
-                id=row[0],
-                username=row[1],
-                name=row[2],
-                is_chef=row[3],
-                pay_rate=row[4],
-                cuisine=row[5],
-                years_of_experience=row[6],
-                picture_url=row[7],
-                password=row[8]
-            )
+            id=row[0],
+            username=row[1],
+            name=row[2],
+            is_chef=row[3],
+            pay_rate=row[4],
+            cuisine=row[5],
+            years_of_experience=row[6],
+            picture_url=row[7],
+            password=row[8]
+        )
 
     def update(self, form_data: AccountIn, user_id: int) -> AccountOut:
         with pool.connection() as connection:

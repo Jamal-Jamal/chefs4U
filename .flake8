@@ -1,2 +1,3 @@
 [flake8]
-exclude = ghi,docs,journals,sample_service/migrations
+exclude = ghi,docs,journals,accounts_api/migrations,events_api/migrations
+ignore=E402,W503

@@ -62,12 +62,12 @@ def delete_event(
         raise HTTPException(
             status_code=404,
             detail="Item Doesnt Exist"
-            )
+        )
     else:
         raise HTTPException(
             status_code=401,
             detail="Invalid Token"
-            )
+        )
 
 
 @router.put("/api/events/favorite")
