@@ -142,16 +142,16 @@ class EventRepository:
                 )
                 for row in result:
                     if chef_id == row[0]:
-                        result = db.execute(
+                        db.execute(
                             """
                             DELETE FROM events
                             WHERE id = %s;
                             """,
                             [event_id]
                         )
-                        return 1
+                        return True
                     else:
-                        return 2
+                        return False
 
     def get_user_favorites(self, user_id: int):
         with pool.connection() as conn:

@@ -48,25 +48,25 @@ def update_event(
     return repo.update(event_id, event, chef_id)
 
 
-@router.delete("/api/events/{event_id}", response_model=bool)
+@router.delete("/api/events/{event_id}", response_model=bool | HttpError)
 def delete_event(
     event_id: int,
     account_data: dict = Depends(authenticator.get_current_account_data),
     repo: EventRepository = Depends(),
-) -> Union[Error, bool]:
+) -> bool:
     chef_id = account_data["id"]
     response = repo.delete(event_id, chef_id)
-    if response == 2:
-        raise HTTPException(
-            status_code=401,
-            detail="Invalid token"
-        )
-    elif response == 1:
+    if response:
         return True
-    else:
+    elif response is None:
         raise HTTPException(
             status_code=404,
             detail="Item does not exist"
+        )
+    else:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid token"
         )
 
 
