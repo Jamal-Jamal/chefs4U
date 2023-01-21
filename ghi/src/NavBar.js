@@ -46,6 +46,11 @@ function NavBar() {
               Sign Up
             </NavLink>
           </li>
+          <li className="nav-item">
+            <NavLink className="nav-link" aria-current="page" to="logout">
+              Logout
+            </NavLink>
+          </li>
         </ul>
       </div>
     </nav>
