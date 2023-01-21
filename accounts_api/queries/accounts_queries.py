@@ -55,33 +55,37 @@ class AccountRepository:
         account: AccountInWithPassword,
         hashed_password: str
     ) -> AccountOutWithPassword:
-        with pool.connection() as connection:
-            with connection.cursor() as db:
-                result = db.execute(
-                    """
-                    INSERT INTO accounts
-                        (username, password, name, is_chef, pay_rate,
-                        cuisine, years_of_experience, picture_url)
-                    VALUES
-                        (%s, %s, %s, %s, %s, %s, %s, %s)
-                    RETURNING id;
-                    """,
-                    [
-                        account.username,
-                        hashed_password,
-                        account.name,
-                        account.is_chef,
-                        account.pay_rate,
-                        account.cuisine,
-                        account.years_of_experience,
-                        account.picture_url,
-                    ],
-                )
+        try:
+            with pool.connection() as connection:
+                with connection.cursor() as db:
+                    result = db.execute(
+                        """
+                        INSERT INTO accounts
+                            (username, password, name, is_chef, pay_rate,
+                            cuisine, years_of_experience, picture_url)
+                        VALUES
+                            (%s, %s, %s, %s, %s, %s, %s, %s)
+                        RETURNING id;
+                        """,
+                        [
+                            account.username,
+                            hashed_password,
+                            account.name,
+                            account.is_chef,
+                            account.pay_rate,
+                            account.cuisine,
+                            account.years_of_experience,
+                            account.picture_url,
+                        ],
+                    )
 
-                id = result.fetchone()[0]
-                old_data = account.dict()
+                    id = result.fetchone()[0]
+                    old_data = account.dict()
 
-                return AccountOutWithPassword(id=id, **old_data)
+                    return AccountOutWithPassword(id=id, **old_data)
+        except Exception as e:
+            print(e)
+            return {"message": "Could not create account"}
 
     def get(self, username: str) -> AccountOutWithPassword:
         with pool.connection() as connection:

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useToken } from "./Accounts/Authentication.js";
 
 function BootstrapInput(props) {
   const { id, labelText, value, onChange, type } = props;
@@ -21,13 +22,14 @@ function BootstrapInput(props) {
   );
 }
 
-function EventForm(props) {
+function EventForm() {
   const [venue, setVenue] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [address, setAddress] = useState("");
   const [pictureUrl, setPictureUrl] = useState("");
+  const [token] = useToken();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -44,8 +46,9 @@ function EventForm(props) {
     const fetchConfig = {
       method: "post",
       body: JSON.stringify(data),
-      credentials: "include",
       headers: {
+        Authorization: `Bearer ${token}`,
+        credentials: "include",
         "Content-Type": "application/json",
       },
     };

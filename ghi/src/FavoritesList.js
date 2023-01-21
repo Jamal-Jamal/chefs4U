@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
+import { useToken } from "./Accounts/Authentication.js";
 
 function FavoritesList() {
   const [events, setEvents] = useState([]);
+  const [token] = useToken();
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_EVENTS_HOST}/api/favorite`, {
+      Authorization: `Bearer ${token}`,
       credentials: "include",
     })
       .then((response) => response.json())
@@ -14,7 +17,8 @@ function FavoritesList() {
         alert("You don't have any favorite events. Please favorite.");
         window.location.href = "/MainPage";
       });
-  }, []);
+  }, [token]);
+
   return (
     <div className="container">
       <h2 className="text-center my-4">My Favorites List</h2>

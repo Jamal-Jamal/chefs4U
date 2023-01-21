@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import "./EditEventForm.css"
+import "./EditEventForm.css";
+import { useToken } from "./Accounts/Authentication.js";
 
 function BootstrapInput(props) {
   const { id, labelText, value, onChange, type } = props;
@@ -24,7 +25,6 @@ function BootstrapInput(props) {
 }
 
 function EditEventForm() {
-  //const [event, setEvent] = useState({});
   const [venue, setVenue] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
@@ -32,14 +32,15 @@ function EditEventForm() {
   const [address, setAddress] = useState("");
   const [pictureUrl, setPictureUrl] = useState("");
   const { id } = useParams();
-    const [submitted, setSubmitted] = useState("alert alert-danger d-none");
-
+  const [submitted, setSubmitted] = useState("alert alert-danger d-none");
+  const [token] = useToken();
 
   useEffect(() => {
     async function fetchEvent() {
-      const response = await fetch(`${process.env.REACT_APP_EVENTS_HOST}/api/events/${id}`);
+      const response = await fetch(
+        `${process.env.REACT_APP_EVENTS_HOST}/api/events/${id}`
+      );
       const data = await response.json();
-      //setEvent(data);
       setVenue(data.venue);
       setDescription(data.description);
       setDate(data.date);
@@ -63,34 +64,34 @@ function EditEventForm() {
     };
     const serviceUrl = `${process.env.REACT_APP_EVENTS_HOST}/api/events/${id}`;
     const fetchConfig = {
-      credentials: "include",
       method: "put",
       body: JSON.stringify(data),
       headers: {
+        Authorization: `Bearer ${token}`,
+        credentials: "include",
         "Content-Type": "application/json",
       },
     };
     fetch(serviceUrl, fetchConfig);
   };
 
-
   const handleDelete = (event) => {
     event.preventDefault();
     const serviceUrl = `${process.env.REACT_APP_EVENTS_HOST}/api/events/${id}`;
     const fetchConfig = {
+      Authorization: `Bearer ${token}`,
       credentials: "include",
       method: "delete",
     };
-    fetch(serviceUrl, fetchConfig)
-    .then(response => {
-          if(response.ok){
-            setVenue("");
-            setDescription("");
-            setDate("");
-            setTime("");
-            setAddress("");
-            setPictureUrl("");
-            setSubmitted("alert alert-danger");
+    fetch(serviceUrl, fetchConfig).then((response) => {
+      if (response.ok) {
+        setVenue("");
+        setDescription("");
+        setDate("");
+        setTime("");
+        setAddress("");
+        setPictureUrl("");
+        setSubmitted("alert alert-danger");
       }
     });
   };
@@ -151,7 +152,13 @@ function EditEventForm() {
               value={pictureUrl}
             />
             <button className="btn btn-primary me-2">Update</button>
-            <button className="Delete btn btn-danger float-none me-2" type="submit" onClick={handleDelete}>Delete</button>
+            <button
+              className="Delete btn btn-danger float-none me-2"
+              type="submit"
+              onClick={handleDelete}
+            >
+              Delete
+            </button>
           </form>
           <div className={submitted} role="alert">
             This Event has been deleted
