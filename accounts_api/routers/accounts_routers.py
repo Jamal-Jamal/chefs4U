@@ -109,3 +109,8 @@ def get_chef(
     repo: AccountRepository = Depends(),
 ) -> Union[Error, AccountOut]:
     return repo.get_detail(id)
+
+
+@router.get("/api/ping")
+def ping():
+    return {"ok": True}

@@ -105,3 +105,8 @@ def get_event(
     repo: EventRepository = Depends(),
 ) -> Union[Error, EventOut]:
     return repo.get_detail(event_id)
+
+
+@router.get("/api/ping")
+def ping():
+    return {"ok": True}
