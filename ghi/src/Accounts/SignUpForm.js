@@ -25,10 +25,7 @@ class Data {
 }
 
 function SignUpForm(props) {
-  const [token, login, logout] = useToken();
-  console.log(token);
-  console.log(logout);
-  //line 29-30 is to pass the pipeline
+  const [token, login] = useToken();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -40,7 +37,7 @@ function SignUpForm(props) {
 
   useEffect(() => {
     if (token) {
-      window.location.href = "/MainPage";
+      window.location.href = "/";
     }
   }, [token]);
 

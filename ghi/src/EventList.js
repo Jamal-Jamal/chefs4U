@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function EventColumn(props) {
+  let navigate = useNavigate();
+  const routeChange = (id) => {
+    navigate(`/events/${id}/edit`);
+  };
   return (
     <div className="col">
       {props.list.map((data, index) => {
+        console.log(data);
         const dateString = data.date + "T" + data.time;
         const dateObj = new Date(dateString);
         const options = { timeStyle: "short" };
@@ -21,6 +26,12 @@ function EventColumn(props) {
               <p className="card-text">Address: {data.address}</p>
               <p className="card-text">Description: {data.description}</p>
             </div>
+            <button
+              className="btn btn-info"
+              onClick={(e) => routeChange(data.id, e)}
+            >
+              Edit
+            </button>
           </div>
         );
       })}

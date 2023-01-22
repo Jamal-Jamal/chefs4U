@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import NavBar from "./NavBar";
+import MainPage from "./MainPage";
 import EventForm from "./EventForm";
 import EditEventForm from "./EditEventForm";
 import FavoritesList from "./FavoritesList";
@@ -23,6 +24,7 @@ function App() {
         <AuthProvider>
           <GetToken />
           <Routes>
+            <Route path="/" element={<MainPage />}></Route>
             <Route path="/login" element={<LoginForm />}></Route>
             <Route path="/signup" element={<SignUpForm />}></Route>
             <Route path="/add-event" element={<EventForm />}></Route>
