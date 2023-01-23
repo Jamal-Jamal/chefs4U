@@ -1,6 +1,8 @@
 from pydantic import BaseModel
 from typing import Optional, List, Union
 from queries.pool import pool
+from fastapi import HTTPException, status
+import psycopg
 
 
 class DuplicateAccountError(ValueError):
@@ -54,10 +56,10 @@ class AccountRepository:
         self,
         account: AccountInWithPassword,
         hashed_password: str
-    ) -> AccountOutWithPassword:
-        try:
-            with pool.connection() as connection:
-                with connection.cursor() as db:
+    ):
+        with pool.connection() as connection:
+            with connection.cursor() as db:
+                try:
                     result = db.execute(
                         """
                         INSERT INTO accounts
@@ -78,14 +80,20 @@ class AccountRepository:
                             account.picture_url,
                         ],
                     )
-
                     id = result.fetchone()[0]
                     old_data = account.dict()
 
                     return AccountOutWithPassword(id=id, **old_data)
-        except Exception as e:
-            print(e)
-            return {"message": "Could not create account"}
+                except psycopg.OperationalError:
+                    raise HTTPException(
+                        status_code=status.HTTP_400_BAD_REQUEST,
+                        detail="Error inserting data into database",
+                    )
+                except psycopg.errors.UniqueViolation:
+                    raise HTTPException(
+                        status_code=status.HTTP_400_BAD_REQUEST,
+                        detail="Account already exists",
+                    )
 
     def get(self, username: str) -> AccountOutWithPassword:
         with pool.connection() as connection:
@@ -145,11 +153,8 @@ class AccountRepository:
 
     def get_all(self) -> Union[Error, List[AccountOut]]:
         try:
-            # connect the database
             with pool.connection() as conn:
-                # get a cursor (something to run SQL with)
                 with conn.cursor() as db:
-                    # Run our SELECT statement
                     result = db.execute(
                         """
                         SELECT id, username, name, is_chef, pay_rate,
