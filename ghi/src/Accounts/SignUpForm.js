@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useToken } from "./Authentication";
 
@@ -69,6 +69,9 @@ function SignUpForm(props) {
         throw new Error(response.statusText);
       }
       login(username, password);
+      if (token) {
+        console.log("Got the token!");
+      }
     } catch (error) {
       console.log(error);
       alert("There was an error. Please try again later.");
