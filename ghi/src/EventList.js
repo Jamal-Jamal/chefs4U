@@ -9,7 +9,6 @@ function EventColumn(props) {
   return (
     <div className="col">
       {props.list.map((data, index) => {
-        console.log(data);
         const dateString = data.date + "T" + data.time;
         const dateObj = new Date(dateString);
         const options = { timeStyle: "short" };

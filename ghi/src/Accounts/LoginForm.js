@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -7,21 +7,24 @@ import { useToken } from "./Authentication.js";
 function LoginForm() {
   const navigate = useNavigate();
   const [token, login] = useToken();
-  console.log(token)
-  //remove line 10 after 
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-    const handleSubmit = async (e) => {
-      login(username, password);
-      e.preventDefault();
-      navigate("/events");
-    };
+  const handleSubmit = async (e) => {
+    login(username, password);
+    e.preventDefault();
+  };
 
   function handleClick() {
     navigate("/signup");
   }
+
+  useEffect(() => {
+    if (token) {
+      navigate("/events");
+    }
+  }, [token]);
 
   return (
     <div className="container py-5 h-100">

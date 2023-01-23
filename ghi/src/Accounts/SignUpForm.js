@@ -74,8 +74,6 @@ function SignUpForm(props) {
       if (!response.ok) {
         throw new Error(response.statusText);
       }
-      const jsonResponse = await response.json();
-      console.log(jsonResponse);
       login(username, password);
     } catch (error) {
       console.log(error);

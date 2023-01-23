@@ -17,9 +17,12 @@ function GetToken() {
 }
 
 function App() {
+  const domain = /https:\/\/[^/]+/;
+  const basename = process.env.PUBLIC_URL.replace(domain, "");
+
   return (
     <div className="container">
-      <BrowserRouter>
+      <BrowserRouter basename={basename}>
         <NavBar />
         <AuthProvider>
           <GetToken />
