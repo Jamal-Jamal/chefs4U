@@ -20,7 +20,7 @@ function Logout(props) {
       }
     }
     deleteToken();
-  }, []);
+  }, [navigate]);
   return <></>;
 }
 
