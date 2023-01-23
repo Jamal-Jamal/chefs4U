@@ -35,12 +35,6 @@ function SignUpForm(props) {
   const [yearsOfExperience, setYearsOfExperience] = useState("");
   const [pictureUrl, setPictureUrl] = useState("");
 
-  useEffect(() => {
-    if (token) {
-      window.location.href = "/";
-    }
-  }, [token]);
-
   async function handleSubmit(event) {
     event.preventDefault();
     const data = {

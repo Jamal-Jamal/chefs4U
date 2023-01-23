@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -12,19 +12,16 @@ function LoginForm() {
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (e) => {
-    login(username, password);
     e.preventDefault();
+    login(username, password);
+    if (token) {
+      console.log("Got the token!");
+    }
   };
 
   function handleClick() {
     navigate("/signup");
   }
-
-  useEffect(() => {
-    if (token) {
-      navigate("/events");
-    }
-  }, [token]);
 
   return (
     <div className="container py-5 h-100">
