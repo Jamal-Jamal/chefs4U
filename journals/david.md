@@ -76,3 +76,24 @@ Today, I worked on:
 - Worked on group migrations
 - Merged my events form into main
 - Started working on chef details page in the front end
+
+## Jan 20, 2023
+
+Today, I worked on:
+
+- Worked on group migrations
+- Helped with the logout feature
+
+## Jan 23, 2023
+
+Today, I worked on:
+
+- Trouble shooted the logout feature. Running into issues where it isnt deleting the token from state
+- Starte working on unit tests
+
+## Jan 23, 2023
+
+Today, I worked on:
+
+- Helped fix the logout feature. The problem was the order we were calling logout within the useToken list. Because we didnt include login before logout, we were having issues.
+- Worked more on creating get all events test.
