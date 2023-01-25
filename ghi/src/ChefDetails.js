@@ -41,7 +41,7 @@ function ChefDetails(props) {
     }
       fetchToken();
     }
-  }, [id]);
+  }, [token, id]);
 
   function handleClick() {
     navigate(`/chef/${id}/edit`);
