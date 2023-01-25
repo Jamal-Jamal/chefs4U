@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useToken } from "./Accounts/Authentication.js";
 
 function BootstrapInput(props) {
@@ -33,6 +33,7 @@ function EditChefForm() {
   const [pictureUrl, setPictureUrl] = useState("");
   const { id } = useParams();
   const [token] = useToken();
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchChef() {
@@ -62,7 +63,6 @@ function EditChefForm() {
       years_of_experience: yearsExperience,
       picture_url: pictureUrl,
     };
-    console.log(data)
     const serviceUrl = `${process.env.REACT_APP_ACCOUNTS_HOST}/api/accounts/`;
     const fetchConfig = {
       method: "put",
@@ -74,7 +74,12 @@ function EditChefForm() {
       },
     };
     fetch(serviceUrl, fetchConfig);
+    handleRoute()
   };
+
+  function handleRoute() {
+    setTimeout(() => {navigate(`/chef/${id}`);}, 100)
+  }
 
   return (
     <div className="row">

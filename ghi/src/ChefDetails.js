@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
+
 
 function ChefDetails(props) {
   const { id } = useParams();
   const [profile, setProfile] = useState({});
+  const navigate = useNavigate();
+  // const [buttonClasses, setButtonClasses] = useState("btn btn-info d-none");
 
   useEffect(() => {
     async function fetchProfile() {
@@ -16,6 +20,10 @@ function ChefDetails(props) {
     }
     fetchProfile();
   }, [id]);
+
+  function handleClick() {
+    navigate(`/chef/${id}/edit`);
+  }
 
   return (
     <>
@@ -32,6 +40,9 @@ function ChefDetails(props) {
             Years of experience: {profile.years_of_experience}
           </p>
           <p className="card-text">Rate: {profile.pay_rate}</p>
+          <Button variant="primary" onClick={handleClick}>
+              Edit Account
+            </Button>
         </div>
       </div>
     </>

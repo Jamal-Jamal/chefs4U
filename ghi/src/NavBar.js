@@ -59,9 +59,10 @@ function NavBar() {
           </li>
           <li className="nav-item">
             <NavLink
-              className={loginClasses}
+              // className={loginClasses}
+              className="nav-link"
               aria-current="page"
-              to={`chef/${accountId}}`}
+              to={`chef/${accountId}`}
             >
               My Profile
             </NavLink>
