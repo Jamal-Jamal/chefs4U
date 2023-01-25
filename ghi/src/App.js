@@ -23,9 +23,9 @@ function App() {
   return (
     <div className="container">
       <BrowserRouter basename={basename}>
-        <NavBar />
         <AuthProvider>
           <GetToken />
+          <NavBar />
           <Routes>
             <Route path="/login" element={<LoginForm />}></Route>
             <Route path="/signup" element={<SignUpForm />}></Route>
