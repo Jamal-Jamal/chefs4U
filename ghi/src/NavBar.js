@@ -11,7 +11,7 @@ function NavBar() {
     if (token) {
       setLoggedIn(true);
       async function fetchToken() {
-        const url = `${process.env.REACT_APP_ACCOUNTS_HOST}/token/`;
+        const url = `${process.env.REACT_APP_ACCOUNTS_HOST}/token`;
         const fetchConfig = {
           credentials: "include",
           headers: {
