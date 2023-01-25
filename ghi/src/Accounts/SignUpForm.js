@@ -25,7 +25,7 @@ class Data {
 }
 
 function SignUpForm(props) {
-  const [token, login] = useToken();
+  const [token, login] = useToken(); // eslint-disable-line no-unused-vars
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -69,9 +69,6 @@ function SignUpForm(props) {
         throw new Error(response.statusText);
       }
       login(username, password);
-      if (token) {
-        console.log("Got the token!");
-      }
     } catch (error) {
       console.log(error);
       alert("There was an error. Please try again later.");
