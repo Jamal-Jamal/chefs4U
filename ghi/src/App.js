@@ -10,6 +10,7 @@ import LoginForm from "./Accounts/LoginForm";
 import { AuthProvider, useToken } from "./Accounts/Authentication.js";
 import ChefsPage from "./ChefsPage";
 import ChefList from "./ChefList";
+import EditChefForm from "./EditChefForm";
 
 function GetToken() {
   useToken();
@@ -34,6 +35,7 @@ function App() {
             <Route path="/events/favorites" element={<FavoritesList />}></Route>
             <Route path="/chef/:id" element={<ChefsPage />}></Route>
             <Route path="/" element={<ChefList />}></Route>
+            <Route path="/chef/:id/edit" element={<EditChefForm />}></Route>
           </Routes>
         </AuthProvider>
       </BrowserRouter>

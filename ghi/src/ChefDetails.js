@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
+import { useToken } from "./Accounts/Authentication";
+
 
 function ChefDetails(props) {
   const { id } = useParams();
   const [profile, setProfile] = useState({});
+  const navigate = useNavigate();
+  const [buttonClasses, setButtonClasses] = useState("btn btn-info d-none");
+  const [token] = useToken();
 
   useEffect(() => {
     async function fetchProfile() {
@@ -15,7 +21,31 @@ function ChefDetails(props) {
       }
     }
     fetchProfile();
-  }, [id]);
+    if (token) {
+      async function fetchToken() {
+        const url = `${process.env.REACT_APP_ACCOUNTS_HOST}/token/`;
+        const fetchConfig = {
+          credentials: "include",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const response = await fetch(url, fetchConfig);
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.account.id === Number(id)) {
+          setButtonClasses("btn btn-info");
+        }
+      }
+    }
+      fetchToken();
+    }
+  }, [token, id]);
+
+  function handleClick() {
+    navigate(`/chef/${id}/edit`);
+  }
 
   return (
     <>
@@ -32,6 +62,11 @@ function ChefDetails(props) {
             Years of experience: {profile.years_of_experience}
           </p>
           <p className="card-text">Rate: {profile.pay_rate}</p>
+          <Button variant="primary"
+            className={buttonClasses}
+            onClick={handleClick}>
+              Edit Account
+          </Button>
         </div>
       </div>
     </>
