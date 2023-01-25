@@ -5,15 +5,16 @@ stages:
 
 # Uncomment this when unit tests are implemented
 # This sets up a test database for tests to run
-# services:
-#   - postgres:14.2-bullseye
+services:
+  - postgres:14.2-bullseye
 
-# variables:
-#   DATABASE_URL: postgresql://postgres:test@postgres:5432/postgres
-#   POSTGRES_DB: test_db
-#   POSTGRES_USER: test_user
-#   POSTGRES_PASSWORD: test_password
-#   POSTGRES_HOST_AUTH_METHOD: trust
+variables:
+  DATABASE_URL: postgresql://postgres:test@postgres:5432/postgres
+  POSTGRES_DB: test_db
+  POSTGRES_USER: test_user
+  POSTGRES_PASSWORD: test_password
+  POSTGRES_HOST_AUTH_METHOD: trust
+  SIGNING_KEY: 2sdfag24334gw
 
 # Run flake8 to check for code quality
 lint-test-job:
@@ -36,15 +37,15 @@ lint-test-job:
 #     - pip install -r requirements.txt
 #     - python -m pytest
 
-# events-unit-test-job:
-#   image: python:3-bullseye
-#   stage: test
-#   needs:
-#     - lint-test-job
-#   script:
-#     - cd events_api
-#     - pip install -r requirements.txt
-#     - python -m pytest
+events-unit-test-job:
+  image: python:3-bullseye
+  stage: test
+  needs:
+    - lint-test-job
+  script:
+    - cd events_api
+    - pip install -r requirements.txt
+    - python -m pytest
 
 build-accounts-backend:
   image: docker:19.03.1
