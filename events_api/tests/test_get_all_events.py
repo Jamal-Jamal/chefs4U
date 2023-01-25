@@ -12,7 +12,7 @@ event_out = EventOut(
     address="120 Costco Lane",
     picture_url="string",
     chef_id=1,
-    users_favorited=None
+    users_favorited=None,
 )
 
 client = TestClient(app)
@@ -27,8 +27,8 @@ def test_get_all_events():
     app.dependency_overrides[EventRepository] = FakeEventRepository
     response = client.get("/api/events")
     data = response.json()
-    print(len(data))
-    data[0]["time"] = datetime.strptime(data[0]["time"], '%H:%M:%S').time()
-    data[0]["date"] = datetime.strptime(data[0]["date"], '%Y-%m-%d').date()
+    data[0]["time"] = datetime.strptime(data[0]["time"], "%H:%M:%S").time()
+    data[0]["date"] = datetime.strptime(data[0]["date"], "%Y-%m-%d").date()
     assert data == [event_out.dict()]
     assert response.status_code == 200
+    app.dependency_overrides = {}
