@@ -51,7 +51,7 @@ function ChefList() {
 
   return (
     <div className="container">
-      <h2 className="text-center my-4">Chefs</h2>
+      <h2 className="text-center my-3">Chefs</h2>
       <div className="row">
         {chefs.map((allChefs, index) => {
           return <ChefColumn key={index} list={allChefs} />;

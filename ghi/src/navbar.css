@@ -1,0 +1,77 @@
+
+    body {
+
+        background-color: rgb(128, 128, 128);
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+      #navbar {
+        background-color: bisque;
+      }
+      .navbar {
+        border-radius: 25px;
+        padding: 0 10px;
+        margin: 50px 0 0 0;
+        background-color: #242020;
+      }
+
+      .navbar-brand {
+        color: rgb(13, 2, 2);
+        font-family: sans-serif;
+        font-weight: bold;
+        padding: 12px 16px;
+        margin: 0 8px;
+        white-space: nowrap;
+      }
+
+      a:hover {
+        color:rgb(251, 251, 251);
+      }
+
+
+      .navbar .nav-item {
+        list-style: none;
+        color: rgb(3, 1, 1);
+        font-family: sans-serif;
+        font-weight: bold;
+        padding: 12px 16px;
+        margin: 0 8px;
+        position: relative;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+
+      .navbar .nav-item::before {
+        content: " ";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        z-index: 0;
+        transition: 0.2s;
+        border-radius: 25px;
+      }
+
+      .navbar .nav-item:hover::before {
+        background: linear-gradient(to bottom, #2f1b12, #3f2a13);
+        box-shadow: 0px 3px 20px 0px rgb(3, 0, 3);
+        transform: scale(1.0);
+      }
+
+      .navbar .nav-item .nav-link:hover {
+        color: rgb(251, 251, 251);
+        z-index: 3;
+      }
+
+      .navbar .nav-item:hover a {
+        color: bisque;
+        position: relative;
+        z-index: 1;
+      }
+      .navbar .nav-item a {
+        color:rgb(59, 33, 20)
+      }

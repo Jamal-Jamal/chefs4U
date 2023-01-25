@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useToken } from "./Accounts/Authentication.js";
+import "./navbar.css"
 
 function NavBar() {
   const [token] = useToken();
   const [loginClasses, setLoginClasses] = useState("nav-link");
   const [accountId, setAccountId] = useState(null);
+  const [loggedIn, setLoggedIn] = useState("nav-item");
   useEffect(() => {
     if (token) {
+      setLoggedIn('nav-item d-none');
       setLoginClasses("nav-link d-none");
       async function fetchToken() {
         const url = `${process.env.REACT_APP_ACCOUNTS_HOST}/token/`;
@@ -28,19 +31,21 @@ function NavBar() {
   }, [token]);
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-danger">
+    <nav className="navbar navbar-expand-lg" id="navbar">
       <div className="container-fluid">
-        <NavLink className="navbar-brand" to="/">
-          Chefs4U
-        </NavLink>
         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+          <li className="nav-item">
+            <NavLink id="brand" className="nav-link chefs4u" to="/">
+              Chefs4U
+            </NavLink>
+          </li>
           <li className="nav-item">
             <NavLink className="nav-link" aria-current="page" to="/">
               View Chefs
             </NavLink>
           </li>
-          <li>
-            <NavLink className="nav-link" aria-current="page" to="add-event">
+          <li className="nav-item">
+            <NavLink className="nav-link" id="add-event" aria-current="page" to="add-event">
               Add An Event
             </NavLink>
           </li>
@@ -53,7 +58,7 @@ function NavBar() {
               Favorite Events
             </NavLink>
           </li>
-          <li className="nav-item">
+          <li className={loggedIn}>
             <NavLink
               className={loginClasses}
               aria-current="page"
@@ -62,12 +67,12 @@ function NavBar() {
               My Profile
             </NavLink>
           </li>
-          <li className="nav-item">
-            <NavLink className={loginClasses} aria-current="page" to="login">
+          <li className={loggedIn}>
+            <NavLink className={loginClasses} id="text" aria-current="page" to="login">
               Login
             </NavLink>
           </li>
-          <li className="nav-item">
+          <li className={loggedIn}>
             <NavLink className={loginClasses} aria-current="page" to="signup">
               Sign Up
             </NavLink>

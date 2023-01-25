@@ -24,7 +24,7 @@ function EventColumn(props) {
         const time = dateObj.toLocaleTimeString([], options);
         return (
           <div key={index} className="card mb-3 shadow">
-            <img src={data.picture_url} className="card-img-top" alt="..." />
+            <img src={data.picture_url} className="card-img-top" alt="..." height="100px" width="100px" />
             <div className="card-body">
               <h5 className="card-title">{data.venue}</h5>
               <p className="card-text">
