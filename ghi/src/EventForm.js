@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useToken } from "./Accounts/Authentication.js";
 
 function BootstrapInput(props) {
@@ -29,7 +29,14 @@ function EventForm() {
   const [time, setTime] = useState("");
   const [address, setAddress] = useState("");
   const [pictureUrl, setPictureUrl] = useState("");
+  const [created, setCreated] = useState(false);
   const [token] = useToken();
+
+  useEffect(() => {
+    setTimeout(() => {
+      setCreated(false);
+    }, 5000);
+  }, [venue]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -59,7 +66,13 @@ function EventForm() {
     setTime("");
     setAddress("");
     setPictureUrl("");
+    setCreated(true);
   };
+
+  let messageClasses = "alert alert-success d-none mb-0";
+  if (created) {
+    messageClasses = "alert alert-success mt-3 mb-0";
+  }
 
   return (
     <div className="row">
@@ -118,6 +131,9 @@ function EventForm() {
             />
             <button className="btn btn-primary">Create</button>
           </form>
+          <div className={messageClasses} id="success-message">
+            Congratulations! You created an event!
+          </div>
         </div>
       </div>
     </div>
