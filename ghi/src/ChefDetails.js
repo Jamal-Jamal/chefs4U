@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { useToken } from "./Accounts/Authentication";
 
+
 function ChefDetails(props) {
   const { id } = useParams();
   const [profile, setProfile] = useState({});
