@@ -49,25 +49,33 @@ function ChefDetails(props) {
   return (
     <>
       <div className="card my-3 shadow">
-        <img
-          src={profile.picture_url}
-          className="card-img-top max-width"
-          alt="..."
-        />
-        <div className="card-body">
-          <h5 className="card-title">{profile.name}</h5>
-          <p className="card-text">Cuisine: {profile.cuisine}</p>
-          <p className="card-text">
-            Years of experience: {profile.years_of_experience}
-          </p>
-          <p className="card-text">Rate: {profile.pay_rate}</p>
-          <Button
-            variant="primary"
-            className={buttonClasses}
-            onClick={handleClick}
-          >
-            Edit Account
-          </Button>
+        <div className="container my-3">
+          <div className="row">
+            <div className="col-sm">
+              <img
+                src={profile.picture_url}
+                className="card-img-top max-width"
+                alt="..."
+              />
+            </div>
+            <div className="col-sm">
+              <div className="card-body">
+                <h3 className="card-title">{profile.name}</h3>
+                <p className="card-text">Cuisine: {profile.cuisine}</p>
+                <p className="card-text">
+                  Years of experience: {profile.years_of_experience}
+                </p>
+                <p className="card-text">Rate: {profile.pay_rate}</p>
+                <Button
+                  variant="primary"
+                  className={buttonClasses}
+                  onClick={handleClick}
+                >
+                  Edit Account
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </>
