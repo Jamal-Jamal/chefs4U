@@ -5,6 +5,7 @@ import { useToken } from "./Accounts/Authentication.js";
 function NavBar() {
   const [token, login, logout] = useToken(); // eslint-disable-line no-unused-vars
   const [accountId, setAccountId] = useState(null);
+  const [isChef, setIsChef] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -22,6 +23,7 @@ function NavBar() {
         if (response.ok) {
           const data = await response.json();
           setAccountId(data.account.id);
+          setIsChef(data.account.is_chef);
         }
       }
       fetchToken();
@@ -33,6 +35,7 @@ function NavBar() {
   function handleLogout() {
     logout();
     setAccountId(null);
+    setIsChef(false);
   }
 
   return (
@@ -47,11 +50,6 @@ function NavBar() {
               View Chefs
             </NavLink>
           </li>
-          <li>
-            <NavLink className="nav-link" aria-current="page" to="add-event">
-              Add An Event
-            </NavLink>
-          </li>
           <li className="nav-item">
             <NavLink
               className="nav-link"
@@ -63,7 +61,16 @@ function NavBar() {
           </li>
           <li className="nav-item">
             <NavLink
-              className={loggedIn ? "nav-link" : "nav-link d-none"}
+              className={isChef ? "nav-link" : "nav-link d-none"}
+              aria-current="page"
+              to="add-event"
+            >
+              Add An Event
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink
+              className={isChef ? "nav-link" : "nav-link d-none"}
               aria-current="page"
               to={`chef/${accountId}`}
             >
