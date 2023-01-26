@@ -6,19 +6,19 @@
 - Response: A list of chefs
 - Response shape:
   ```json
-  {
-    "chefs": [
-      {
-        "id": number,
-        "first_name": string,
-        "last_name": string,
-        "payrate": float,
-        "cuisine": string,
-        "years_of_experience": number,
-        "picture_url": string,
-      }
-    ]
-  }
+  [
+    {
+      "id": number,
+      "username": string,
+      "name": string,
+      "is_chef": boolean,
+      "pay_rate": string,
+      "cuisine": string,
+      "years_of_experience": number,
+      "picture_url": string,
+      "events_favorited": list[number]
+    }
+  ]
   ```
 
 ### Get chef detail
@@ -31,12 +31,14 @@
   ```json
   {
     "id": number,
-    "first_name": string,
-    "last_name": string,
-    "payrate": float,
+    "username": string,
+    "name": string,
+    "is_chef": boolean,
+    "pay_rate": string,
     "cuisine": string,
     "years_of_experience": number,
     "picture_url": string,
+    "events_favorited": list[number]
   }
   ```
 
@@ -49,12 +51,14 @@
 
   ```json
   {
-    "first_name": string,
-    "last_name": string,
-    "payrate": float,
+    "username": string,
+    "name": string,
+    "is_chef": boolean,
+    "pay_rate": float,
     "cuisine": string,
     "years_of_experience": number,
     "picture_url": string,
+    "password": string
   }
   ```
 
@@ -62,8 +66,19 @@
 - Response shape:
   ```json
   {
-    "success": boolean,
-    "message": string
+    "access_token": string,
+    "token_type": "Bearer",
+    "account": {
+      "id": number,
+      "username": string,
+      "name": string,
+      "is_chef": boolean,
+      "pay_rate": string,
+      "cuisine": string,
+      "years_of_experience": number,
+      "picture_url": string,
+      "events_favorited": list[number]
+    }
   }
   ```
 
@@ -80,12 +95,14 @@
 
   ```json
   {
-    "first_name": string,
-    "last_name": string,
-    "payrate": float,
+    "username": string,
+    "name": string,
+    "is_chef": boolean,
+    "pay_rate": float,
     "cuisine": string,
     "years_of_experience": number,
     "picture_url": string,
+    "events_favorited": list[number]
   }
   ```
 
@@ -93,12 +110,14 @@
 - Response shape:
   ```json
   {
-    "first_name": string,
-    "last_name": string,
-    "payrate": float,
+    "username": string,
+    "name": string,
+    "is_chef": boolean,
+    "pay_rate": float,
     "cuisine": string,
     "years_of_experience": number,
     "picture_url": string,
+    "events_favorited": list[number]
   }
   ```
 
@@ -110,19 +129,20 @@
 - Response: A list of all events
 - Response shape:
   ```json
-  {
-    "id": number,
-    "venue": string,
-    "description": string,
-    "date": date,
-    "time": time with timezone,
-    "address": string,
-    "picture_url": string,
-    "chef_id": number,
-    "users_favorited": [
-      number
-    ]
-  }
+  [
+    {
+      "id": number,
+      "venue": string,
+      "description": string,
+      "date": date,
+      "time": time,
+      "address": string,
+      "picture_url": string,
+      "attendee_capacity": number,
+      "chef_id": number,
+      "users_favorited": list[number]
+    }
+  ]
   ```
 
 ### Create an event
@@ -144,6 +164,7 @@
     "time": time with timezone,
     "address": string,
     "picture_url": string,
+    "attendee_capacity": number,
     "chef_id": number
   }
   ```
@@ -159,7 +180,9 @@
     "time": time with timezone,
     "address": string,
     "picture_url": string,
-    "chef_id": number
+    "attendee_capacity": number,
+    "chef_id": number,
+    "users_favorited": list[number]
   }
   ```
 
@@ -181,6 +204,8 @@
     "end_date": datetime,
     "address": string,
     "picture_url": string,
+    "attendee_capacity": number,
+
   }
   ```
 
@@ -193,6 +218,8 @@
     "end_date": datetime,
     "address": string,
     "picture_url": string,
+    "attendee_capacity": number,
+    "users_favorited": list[number]
   }
   ```
 

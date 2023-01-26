@@ -12,7 +12,6 @@ function EventColumn(props) {
     const data = {
       event_id: id,
     };
-    console.log(data);
     const eventsURL = `${process.env.REACT_APP_EVENTS_HOST}/api/favorite`;
     const accountsURL = `${process.env.REACT_APP_ACCOUNTS_HOST}/api/favorite`;
     const fetchConfig = {
@@ -24,16 +23,8 @@ function EventColumn(props) {
         "Content-Type": "application/json",
       },
     };
-    const response1 = await fetch(eventsURL, fetchConfig);
-    if (response1.ok) {
-      const data1 = await response1.json();
-      console.log(data1);
-    }
-    const response2 = await fetch(accountsURL, fetchConfig);
-    if (response2.ok) {
-      const data2 = await response2.json();
-      console.log(data2);
-    }
+    await fetch(eventsURL, fetchConfig);
+    await fetch(accountsURL, fetchConfig);
   };
   useEffect(() => {
     if (props.accountId === Number(props.id)) {
