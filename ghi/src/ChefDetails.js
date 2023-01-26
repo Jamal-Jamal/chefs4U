@@ -3,7 +3,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { useToken } from "./Accounts/Authentication";
 
-
 function ChefDetails(props) {
   const { id } = useParams();
   const [profile, setProfile] = useState({});
@@ -66,7 +65,7 @@ function ChefDetails(props) {
                 <p className="card-text">
                   Years of experience: {profile.years_of_experience}
                 </p>
-                <p className="card-text">Rate: {profile.pay_rate}</p>
+                <p className="card-text">Hourly Rate: {profile.pay_rate}</p>
                 <Button
                   variant="primary"
                   className={buttonClasses}

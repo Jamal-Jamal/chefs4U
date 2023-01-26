@@ -113,7 +113,7 @@ function EditChefForm() {
             <BootstrapInput
               id="rate"
               type="text"
-              labelText="Pay Rate"
+              labelText="Hourly Pay Rate"
               onChange={(e) => setRate(e.target.value)}
               value={rate}
             />

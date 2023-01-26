@@ -126,10 +126,10 @@ function SignUpForm(props) {
                     {isChef && (
                       <>
                         <Form.Group controlId="formPayRate">
-                          <Form.Label>Pay Rate</Form.Label>
+                          <Form.Label>Hourly Pay Rate</Form.Label>
                           <Form.Control
                             type="text"
-                            placeholder="Enter pay rate"
+                            placeholder="Enter hourly pay rate"
                             value={payRate}
                             onChange={(event) => setPayRate(event.target.value)}
                           />
@@ -149,7 +149,7 @@ function SignUpForm(props) {
                           <Form.Label>Years of Experience</Form.Label>
                           <Form.Control
                             type="number"
-                            placeholder="Enter Years Of Experience"
+                            placeholder="Enter years of experience"
                             value={yearsOfExperience}
                             onChange={(event) =>
                               setYearsOfExperience(event.target.value)

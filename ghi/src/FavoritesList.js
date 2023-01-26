@@ -38,7 +38,7 @@ function ErrorMessage() {
     <div className="text-center my-4">
       You don't have any favorite events. Please favorite an event.
     </div>
-  )
+  );
 }
 
 function FavoritesList() {
@@ -52,14 +52,18 @@ function FavoritesList() {
     }
     async function fetchFavorites() {
       fetch(`${process.env.REACT_APP_EVENTS_HOST}/api/favorite`, {
-        Authorization: `Bearer ${token}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         credentials: "include",
       })
         .then((response) => response.json())
         .then((data) => setEvents(data))
         .catch((error) => {
           console.log(error);
-          alert("You don't have any favorite events. Please favorite an event.");
+          alert(
+            "You don't have any favorite events. Please favorite an event."
+          );
           window.location.href = "/";
         });
     }
@@ -69,7 +73,7 @@ function FavoritesList() {
   return (
     <div className="container">
       <h2 className="text-center my-4">My Favorites List</h2>
-      {events.length > 0 ? <EventMap events={events} /> : <ErrorMessage/>}
+      {events.length > 0 ? <EventMap events={events} /> : <ErrorMessage />}
       <div className="row"></div>
     </div>
   );
