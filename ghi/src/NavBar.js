@@ -3,14 +3,15 @@ import { NavLink } from "react-router-dom";
 import { useToken } from "./Accounts/Authentication.js";
 
 function NavBar() {
-  const [token] = useToken();
-  const [loginClasses, setLoginClasses] = useState("nav-link");
+  const [token, login, logout] = useToken(); // eslint-disable-line no-unused-vars
   const [accountId, setAccountId] = useState(null);
+  const [loggedIn, setLoggedIn] = useState(false);
+
   useEffect(() => {
     if (token) {
-      setLoginClasses("nav-link d-none");
+      setLoggedIn(true);
       async function fetchToken() {
-        const url = `${process.env.REACT_APP_ACCOUNTS_HOST}/token/`;
+        const url = `${process.env.REACT_APP_ACCOUNTS_HOST}/token`;
         const fetchConfig = {
           credentials: "include",
           headers: {
@@ -24,8 +25,15 @@ function NavBar() {
         }
       }
       fetchToken();
+    } else {
+      setLoggedIn(false);
     }
-  }, [token]);
+  }, [token, loggedIn]);
+
+  function handleLogout() {
+    logout();
+    setAccountId(null);
+  }
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-danger">
@@ -35,12 +43,8 @@ function NavBar() {
         </NavLink>
         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
           <li className="nav-item">
-            <NavLink
-            className="nav-link"
-            aria-current="page"
-            to="/"
-            >
-            View Chefs
+            <NavLink className="nav-link" aria-current="page" to="/">
+              View Chefs
             </NavLink>
           </li>
           <li>
@@ -59,8 +63,7 @@ function NavBar() {
           </li>
           <li className="nav-item">
             <NavLink
-              // className={loginClasses}
-              className="nav-link"
+              className={loggedIn ? "nav-link" : "nav-link d-none"}
               aria-current="page"
               to={`chef/${accountId}`}
             >
@@ -68,13 +71,31 @@ function NavBar() {
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink className={loginClasses} aria-current="page" to="login">
+            <NavLink
+              className={loggedIn ? "nav-link d-none" : "nav-link"}
+              aria-current="page"
+              to="login"
+            >
               Login
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink className={loginClasses} aria-current="page" to="signup">
+            <NavLink
+              className={loggedIn ? "nav-link d-none" : "nav-link"}
+              aria-current="page"
+              to="signup"
+            >
               Sign Up
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink
+              className={loggedIn ? "nav-link" : "nav-link d-none"}
+              aria-current="page"
+              to="/"
+              onClick={handleLogout}
+            >
+              Log out
             </NavLink>
           </li>
         </ul>

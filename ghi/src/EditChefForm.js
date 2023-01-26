@@ -63,7 +63,7 @@ function EditChefForm() {
       years_of_experience: yearsExperience,
       picture_url: pictureUrl,
     };
-    const serviceUrl = `${process.env.REACT_APP_ACCOUNTS_HOST}/api/accounts/`;
+    const serviceUrl = `${process.env.REACT_APP_ACCOUNTS_HOST}/api/accounts`;
     const fetchConfig = {
       method: "put",
       body: JSON.stringify(data),
@@ -74,11 +74,13 @@ function EditChefForm() {
       },
     };
     fetch(serviceUrl, fetchConfig);
-    handleRoute()
+    handleRoute();
   };
 
   function handleRoute() {
-    setTimeout(() => {navigate(`/chef/${id}`);}, 100)
+    setTimeout(() => {
+      navigate(`/chef/${id}`);
+    }, 100);
   }
 
   return (
@@ -100,7 +102,7 @@ function EditChefForm() {
               labelText="Cuisine"
               value={cuisine}
               onChange={(e) => setCuisine(e.target.value)}
-              />
+            />
             <BootstrapInput
               id="yearsExperience"
               type="number"

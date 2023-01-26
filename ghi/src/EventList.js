@@ -8,6 +8,33 @@ function EventColumn(props) {
   const routeChange = (id) => {
     navigate(`/events/${id}/edit`);
   };
+  const handleClick = async (id) => {
+    const data = {
+      event_id: id,
+    };
+    console.log(data);
+    const eventsURL = `${process.env.REACT_APP_EVENTS_HOST}/api/favorite`;
+    const accountsURL = `${process.env.REACT_APP_ACCOUNTS_HOST}/api/favorite`;
+    const fetchConfig = {
+      method: "put",
+      body: JSON.stringify(data),
+      headers: {
+        Authorization: `Bearer ${props.token}`,
+        credentials: "include",
+        "Content-Type": "application/json",
+      },
+    };
+    const response1 = await fetch(eventsURL, fetchConfig);
+    if (response1.ok) {
+      const data1 = await response1.json();
+      console.log(data1);
+    }
+    const response2 = await fetch(accountsURL, fetchConfig);
+    if (response2.ok) {
+      const data2 = await response2.json();
+      console.log(data2);
+    }
+  };
   useEffect(() => {
     if (props.accountId === Number(props.id)) {
       setButtonClasses("btn btn-info");
@@ -38,6 +65,10 @@ function EventColumn(props) {
               onClick={(e) => routeChange(data.id, e)}
             >
               Edit
+            </button>
+
+            <button className="btn" onClick={(e) => handleClick(data.id, e)}>
+              Favorite Event
             </button>
           </div>
         );
@@ -74,7 +105,7 @@ function EventList() {
     }
     if (token) {
       async function fetchToken() {
-        const url = `${process.env.REACT_APP_ACCOUNTS_HOST}/token/`;
+        const url = `${process.env.REACT_APP_ACCOUNTS_HOST}/token`;
         const fetchConfig = {
           credentials: "include",
           headers: {
@@ -103,6 +134,7 @@ function EventList() {
               list={eventList}
               accountId={accountId}
               id={id}
+              token={token}
             />
           );
         })}

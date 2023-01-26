@@ -10,6 +10,9 @@ function ChefDetails(props) {
   const navigate = useNavigate();
   const [buttonClasses, setButtonClasses] = useState("btn btn-info d-none");
   const [token] = useToken();
+  const navigate = useNavigate();
+  const [buttonClasses, setButtonClasses] = useState("btn btn-info d-none");
+  const [token] = useToken();
 
   useEffect(() => {
     async function fetchProfile() {
@@ -23,7 +26,7 @@ function ChefDetails(props) {
     fetchProfile();
     if (token) {
       async function fetchToken() {
-        const url = `${process.env.REACT_APP_ACCOUNTS_HOST}/token/`;
+        const url = `${process.env.REACT_APP_ACCOUNTS_HOST}/token`;
         const fetchConfig = {
           credentials: "include",
           headers: {
@@ -35,10 +38,10 @@ function ChefDetails(props) {
         if (response.ok) {
           const data = await response.json();
           if (data.account.id === Number(id)) {
-          setButtonClasses("btn btn-info");
+            setButtonClasses("btn btn-info");
+          }
         }
       }
-    }
       fetchToken();
     }
   }, [token, id]);

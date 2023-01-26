@@ -6,7 +6,7 @@ import { useToken } from "./Authentication.js";
 
 function LoginForm() {
   const navigate = useNavigate();
-  const [token, login] = useToken();
+  const [token, login] = useToken(); // eslint-disable-line no-unused-vars
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -14,9 +14,6 @@ function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     login(username, password);
-    if (token) {
-      console.log("Got the token!");
-    }
   };
 
   function handleClick() {
