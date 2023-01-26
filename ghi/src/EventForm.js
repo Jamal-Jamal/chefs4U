@@ -30,6 +30,7 @@ function EventForm() {
   const [address, setAddress] = useState("");
   const [pictureUrl, setPictureUrl] = useState("");
   const [created, setCreated] = useState(false);
+  const [attendeeCapacity, setAttendeeCapacity] = useState("");
   const [token] = useToken();
 
   useEffect(() => {
@@ -47,6 +48,7 @@ function EventForm() {
       time: time,
       address: address,
       picture_url: pictureUrl,
+      attendee_capacity: attendeeCapacity,
     };
 
     const serviceUrl = `${process.env.REACT_APP_EVENTS_HOST}/api/events`;
@@ -66,6 +68,7 @@ function EventForm() {
     setTime("");
     setAddress("");
     setPictureUrl("");
+    setAttendeeCapacity("");
     setCreated(true);
   };
 
@@ -128,6 +131,13 @@ function EventForm() {
               labelText="Picture Url"
               onChange={(e) => setPictureUrl(e.target.value)}
               value={pictureUrl}
+            />
+            <BootstrapInput
+              id="attendeeCapacity"
+              type="number"
+              labelText="Attendee Capacity"
+              onChange={(e) => setAttendeeCapacity(e.target.value)}
+              value={attendeeCapacity}
             />
             <button className="btn btn-primary">Create</button>
           </form>

@@ -8,8 +8,9 @@ steps = [
             description TEXT NOT NULL,
             date DATE NOT NULL,
             time TIME NOT NULL,
-            address VARCHAR(1000) NOT NULL,
-            picture_url VARCHAR(1000) NOT NULL,
+            address VARCHAR(1000),
+            picture_url VARCHAR(1000),
+            attendee_capacity integer,
             chef_id integer NOT NULL,
             users_favorited integer[]
         );

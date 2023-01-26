@@ -11,6 +11,7 @@ event_out = EventOut(
     time="18:30:00",
     address="120 Costco Lane",
     picture_url="string",
+    attendee_capacity=100,
     chef_id=1,
     users_favorited=None,
 )

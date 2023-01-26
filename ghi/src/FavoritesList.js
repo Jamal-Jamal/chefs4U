@@ -22,6 +22,9 @@ function EventMap(props) {
               </p>
               <p className="card-text">Address: {event.address}</p>
               <p className="card-text">Description: {event.description}</p>
+              <p className="card-text">
+                Attendee Capacity: {event.attendee_capacity}
+              </p>
             </div>
           </div>
         </div>

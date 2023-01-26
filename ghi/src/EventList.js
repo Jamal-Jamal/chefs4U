@@ -59,6 +59,9 @@ function EventColumn(props) {
               </p>
               <p className="card-text">Address: {data.address}</p>
               <p className="card-text">Description: {data.description}</p>
+              <p className="card-text">
+                Attendee Capacity: {data.attendee_capacity}
+              </p>
             </div>
             <button
               className={buttonClasses}

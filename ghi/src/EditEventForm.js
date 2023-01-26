@@ -31,6 +31,7 @@ function EditEventForm() {
   const [time, setTime] = useState("");
   const [address, setAddress] = useState("");
   const [pictureUrl, setPictureUrl] = useState("");
+  const [attendeeCapacity, setAttendeeCapacity] = useState("");
   const { id } = useParams();
   const [submitted, setSubmitted] = useState("alert alert-danger d-none");
   const [token] = useToken();
@@ -47,6 +48,7 @@ function EditEventForm() {
       setTime(data.time);
       setAddress(data.address);
       setPictureUrl(data.picture_url);
+      setAttendeeCapacity(data.attendee_capacity);
     }
     fetchEvent();
   }, [id]);
@@ -60,6 +62,7 @@ function EditEventForm() {
       time: time,
       address: address,
       picture_url: pictureUrl,
+      attendee_capacity: attendeeCapacity,
       chef_id: event.chef_id,
     };
     const serviceUrl = `${process.env.REACT_APP_EVENTS_HOST}/api/events/${id}`;
@@ -91,6 +94,7 @@ function EditEventForm() {
         setTime("");
         setAddress("");
         setPictureUrl("");
+        setAttendeeCapacity("");
         setSubmitted("alert alert-danger");
       }
     });
@@ -150,6 +154,13 @@ function EditEventForm() {
               labelText="Picture Url"
               onChange={(e) => setPictureUrl(e.target.value)}
               value={pictureUrl}
+            />
+            <BootstrapInput
+              id="attendeeCapacity"
+              type="number"
+              labelText="Attendee Capacity"
+              onChange={(e) => setAttendeeCapacity(e.target.value)}
+              value={attendeeCapacity}
             />
             <button className="btn btn-primary me-2">Update</button>
             <button

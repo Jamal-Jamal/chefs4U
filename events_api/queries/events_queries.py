@@ -15,6 +15,7 @@ class EventIn(BaseModel):
     time: time
     address: Optional[str]
     picture_url: Optional[str]
+    attendee_capacity: Optional[int]
 
 
 class EventOut(BaseModel):
@@ -23,8 +24,9 @@ class EventOut(BaseModel):
     description: str
     date: date
     time: time
-    address: str
-    picture_url: str
+    address: Optional[str]
+    picture_url: Optional[str]
+    attendee_capacity: Optional[int]
     chef_id: int
     users_favorited: Optional[list[int]]
 
@@ -45,9 +47,9 @@ class EventRepository:
                     """
                     INSERT INTO events
                         (venue, description, date, time, address,
-                        picture_url, chef_id)
+                        picture_url, attendee_capacity, chef_id)
                     VALUES
-                        (%s, %s, %s, %s, %s, %s, %s)
+                        (%s, %s, %s, %s, %s, %s, %s, %s)
                     RETURNING id;
                     """,
                     [
@@ -57,6 +59,7 @@ class EventRepository:
                         event.time,
                         event.address,
                         event.picture_url,
+                        event.attendee_capacity,
                         user_id
                     ],
                 )
@@ -70,7 +73,7 @@ class EventRepository:
                 result = db.execute(
                     """
                     SELECT id, venue, description, date,
-                        time, address, picture_url, chef_id,
+                        time, address, picture_url, attendee_capacity, chef_id,
                         users_favorited
                     FROM events;
                     """
@@ -85,8 +88,9 @@ class EventRepository:
                         time=record[4],
                         address=record[5],
                         picture_url=record[6],
-                        chef_id=record[7],
-                        users_favorited=record[8]
+                        attendee_capacity=record[7],
+                        chef_id=record[8],
+                        users_favorited=record[9]
                     )
                     result.append(event)
                 return result
@@ -164,7 +168,7 @@ class EventRepository:
                 )
                 fav_list = []
                 for row in result:
-                    if row[8] and user_id in row[8]:
+                    if row[9] and user_id in row[9]:
                         event = EventOut(
                             id=row[0],
                             venue=row[1],
@@ -173,8 +177,9 @@ class EventRepository:
                             time=row[4],
                             address=row[5],
                             picture_url=row[6],
-                            chef_id=row[7],
-                            users_favorited=row[8]
+                            attendee_capacity=row[7],
+                            chef_id=row[8],
+                            users_favorited=row[9]
                         )
                         fav_list.append(event)
                 return fav_list
@@ -204,6 +209,7 @@ class EventRepository:
                                 , time = %s
                                 , address = %s
                                 , picture_url = %s
+                                , attendee_capacity = %s
                                 WHERE id = %s
                                 """,
                                 [
@@ -213,6 +219,7 @@ class EventRepository:
                                     event.time,
                                     event.address,
                                     event.picture_url,
+                                    event.attendee_capacity,
                                     event_id,
                                 ]
                             )
@@ -244,8 +251,9 @@ class EventRepository:
                         time=event[4],
                         address=event[5],
                         picture_url=event[6],
-                        chef_id=event[7],
-                        users_favorited=event[8],
+                        attendee_capacity=event[7],
+                        chef_id=event[8],
+                        users_favorited=event[9],
                     )
                     return event_out
         except Exception as e:
