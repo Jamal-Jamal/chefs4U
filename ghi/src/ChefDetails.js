@@ -10,10 +10,7 @@ function ChefDetails(props) {
   const navigate = useNavigate();
   const [buttonClasses, setButtonClasses] = useState("btn btn-info d-none");
   const [token] = useToken();
-  const navigate = useNavigate();
-  const [buttonClasses, setButtonClasses] = useState("btn btn-info d-none");
-  const [token] = useToken();
-
+  
   useEffect(() => {
     async function fetchProfile() {
       const url = `${process.env.REACT_APP_ACCOUNTS_HOST}/api/chef/${id}`;
