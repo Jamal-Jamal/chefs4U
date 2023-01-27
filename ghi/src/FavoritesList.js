@@ -5,30 +5,37 @@ import { useNavigate } from "react-router-dom";
 function EventMap(props) {
   return (
     <div className="w-50 mx-auto">
-      {props.events.map((event) => (
-        <div key={event.id}>
-          <div className="card mb-3 shadow">
-            <img
-              src={event.picture_url}
-              className="card-img-top"
-              alt=""
-              width="400px"
-              height="400px"
-            />
-            <div className="card-body">
-              <h3 className="card-title">{event.venue}</h3>
-              <p className="card-text">
-                Date: {event.date} @ {event.address}
-              </p>
-              <p className="card-text">Address: {event.address}</p>
-              <p className="card-text">Description: {event.description}</p>
-              <p className="card-text">
-                Attendee Capacity: {event.attendee_capacity}
-              </p>
+      {props.events.map((event) => {
+        const dateString = event.date + "T" + event.time;
+        const dateObj = new Date(dateString);
+        const options = { timeStyle: "short" };
+        const date = dateObj.toLocaleDateString();
+        const time = dateObj.toLocaleTimeString([], options);
+        return (
+          <div key={event.id}>
+            <div className="card mb-3 shadow">
+              <img
+                src={event.picture_url}
+                className="card-img-top"
+                alt=""
+                width="400px"
+                height="400px"
+              />
+              <div className="card-body">
+                <h3 className="card-title">{event.venue}</h3>
+                <p className="card-text">
+                  Date: {date} @ {time}
+                </p>
+                <p className="card-text">Address: {event.address}</p>
+                <p className="card-text">Description: {event.description}</p>
+                <p className="card-text">
+                  Attendee Capacity: {event.attendee_capacity}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

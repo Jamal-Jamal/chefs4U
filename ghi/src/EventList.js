@@ -4,6 +4,7 @@ import { useToken } from "./Accounts/Authentication.js";
 
 function EventColumn(props) {
   const [buttonClasses, setButtonClasses] = useState("btn btn-info d-none");
+  const [favButtonClasses, setFavButtonClasses] = useState("btn d-none");
   let navigate = useNavigate();
   const routeChange = (id) => {
     navigate(`/events/${id}/edit`);
@@ -30,7 +31,10 @@ function EventColumn(props) {
     if (props.accountId === Number(props.id)) {
       setButtonClasses("btn btn-info");
     }
-  }, [props.accountId, props.id]);
+    if (props.token) {
+      setFavButtonClasses("btn btn-success");
+    }
+  }, [props.accountId, props.id, props.token]);
 
   return (
     <div className="col">
@@ -61,7 +65,10 @@ function EventColumn(props) {
               Edit
             </button>
 
-            <button className="btn" onClick={(e) => handleClick(data.id, e)}>
+            <button
+              className={favButtonClasses}
+              onClick={(e) => handleClick(data.id, e)}
+            >
               Favorite Event
             </button>
           </div>
