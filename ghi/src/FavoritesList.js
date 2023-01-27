@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 function EventMap(props) {
   return (
-    <div>
+    <div className="w-50 mx-auto">
       {props.events.map((event) => (
         <div key={event.id}>
           <div className="card mb-3 shadow">
