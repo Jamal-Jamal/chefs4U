@@ -170,10 +170,11 @@ function SignUpForm(props) {
                         </Form.Group>
                       </>
                     )}
-
+                    <div className="mt-4">
                     <Button variant="primary" type="submit">
                       Sign up
                     </Button>
+                    </div>
                   </Form>
                 </div>
               </div>

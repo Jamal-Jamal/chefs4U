@@ -164,7 +164,7 @@ function EditEventForm() {
             />
             <button className="btn btn-primary me-2">Update</button>
             <button
-              className="Delete btn btn-danger float-none me-2"
+              className="Delete btn btn-danger float-right me-2"
               type="submit"
               onClick={handleDelete}
             >
