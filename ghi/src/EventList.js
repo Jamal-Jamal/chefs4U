@@ -24,6 +24,10 @@ function EventColumn(props) {
         "Content-Type": "application/json",
       },
     };
+    setTimeout(() => {
+      let temp = props.pressedFav + 1;
+      props.setPressedFav(temp);
+    }, 200);
     await fetch(eventsURL, fetchConfig);
     await fetch(accountsURL, fetchConfig);
   };
@@ -34,7 +38,7 @@ function EventColumn(props) {
     if (props.token) {
       setFavButtonClasses("btn btn-success");
     }
-  }, [props.accountId, props.id, props.token]);
+  }, [props.accountId, props.id, props.token, props.pressedFav]);
 
   return (
     <div className="col">
@@ -56,6 +60,10 @@ function EventColumn(props) {
               <p className="card-text">Description: {data.description}</p>
               <p className="card-text">
                 Attendee Capacity: {data.attendee_capacity}
+              </p>
+              <p>
+                Number of likes:{" "}
+                {data.users_favorited ? data.users_favorited.length : 0}
               </p>
             </div>
             <button
@@ -83,6 +91,7 @@ function EventList() {
   const [token] = useToken();
   const { id } = useParams();
   const [accountId, setAccountId] = useState(null);
+  const [pressedFav, setPressedFav] = useState(0);
 
   useEffect(() => {
     const url = `${process.env.REACT_APP_EVENTS_HOST}/api/events`;
@@ -122,7 +131,8 @@ function EventList() {
       fetchToken();
     }
     fetchData();
-  }, [id, token]);
+    console.log(pressedFav);
+  }, [id, token, pressedFav]);
 
   return (
     <div className="container">
@@ -136,6 +146,8 @@ function EventList() {
               accountId={accountId}
               id={id}
               token={token}
+              pressedFav={pressedFav}
+              setPressedFav={setPressedFav}
             />
           );
         })}

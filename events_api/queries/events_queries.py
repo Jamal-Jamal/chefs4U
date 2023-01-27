@@ -75,7 +75,8 @@ class EventRepository:
                     SELECT id, venue, description, date,
                         time, address, picture_url, attendee_capacity, chef_id,
                         users_favorited
-                    FROM events;
+                    FROM events
+                    ORDER BY id;
                     """
                 )
                 result = []
