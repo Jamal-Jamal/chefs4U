@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { useToken } from "./Accounts/Authentication.js";
 
 function NavBar() {
-  const [token, login, logout] = useToken(); // eslint-disable-line no-unused-vars
+  const token = useToken()[0];
+  const logout = useToken()[2];
   const [accountId, setAccountId] = useState(null);
   const [isChef, setIsChef] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
@@ -44,7 +45,7 @@ function NavBar() {
         <NavLink className="navbar-brand" to="/">
           Chefs4U
         </NavLink>
-        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul className="navbar-nav me-auto mb-2 mb-lg-0 mx-2">
           <li className="nav-item">
             <NavLink className="nav-link" aria-current="page" to="/">
               View Chefs
@@ -77,7 +78,9 @@ function NavBar() {
               My Profile
             </NavLink>
           </li>
-          <li className="nav-item">
+        </ul>
+        <ul className="navbar-nav">
+          <li className="nav-item mx-auto">
             <NavLink
               className={loggedIn ? "nav-link d-none" : "nav-link"}
               aria-current="page"
@@ -96,14 +99,14 @@ function NavBar() {
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink
+            <Link
               className={loggedIn ? "nav-link" : "nav-link d-none"}
               aria-current="page"
               to="/"
               onClick={handleLogout}
             >
               Log out
-            </NavLink>
+            </Link>
           </li>
         </ul>
       </div>

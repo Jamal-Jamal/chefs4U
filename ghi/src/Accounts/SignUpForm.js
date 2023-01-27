@@ -25,7 +25,7 @@ class Data {
 }
 
 function SignUpForm(props) {
-  const [token, login] = useToken(); // eslint-disable-line no-unused-vars
+  const login = useToken()[1];
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -171,9 +171,9 @@ function SignUpForm(props) {
                       </>
                     )}
                     <div className="mt-4">
-                    <Button variant="primary" type="submit">
-                      Sign up
-                    </Button>
+                      <Button variant="primary" type="submit">
+                        Sign up
+                      </Button>
                     </div>
                   </Form>
                 </div>
