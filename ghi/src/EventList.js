@@ -77,7 +77,11 @@ function EventColumn(props) {
               className={favButtonClasses}
               onClick={(e) => handleClick(data.id, e)}
             >
-              Favorite Event
+              {data.users_favorited == null
+                ? "Favorite"
+                : data.users_favorited.indexOf(props.accountId) === -1
+                ? "Favorite"
+                : "Unfavorite"}
             </button>
           </div>
         );
@@ -131,7 +135,6 @@ function EventList() {
       fetchToken();
     }
     fetchData();
-    console.log(pressedFav);
   }, [id, token, pressedFav]);
 
   return (
